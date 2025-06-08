@@ -64,7 +64,7 @@ const Contact = () => {
             </h3>
             <div className="flex space-x-4">
               <a
-                href="https://linkedin.com/in/yourusername"
+                href="https://www.linkedin.com/in/harsh-dadiya/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -74,7 +74,7 @@ const Contact = () => {
                 </svg>
               </a>
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/Dadiya-Harsh"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
