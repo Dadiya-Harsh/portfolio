@@ -7,7 +7,7 @@ const Projects = () => {
       description: "An AI-powered medical chatbot leveraging Google's Gemini AI for accurate health information delivery. Features vector similarity search using Pinecone for efficient medical knowledge base retrieval and advanced natural language processing.",
       technologies: ["Python", "Flask", "Google Gemini AI", "LangChain", "Pinecone", "Hugging Face"],
       image: "/projects/medical-chatbot.jpg",
-      github: "https://github.com/Dadiya-Harsh/cure-now",
+      github: "https://github.com/Dadiya-Harsh/cure-now/",
       demo: "#"
     },
     {
@@ -15,7 +15,7 @@ const Projects = () => {
       description: "Built intelligent SQL query agent that converts natural language queries into executable SQL statements. Integrated multiple LLM providers and implemented robust database schema reflection with safe query execution.",
       technologies: ["Python", "SQLAlchemy", "Multiple LLM APIs", "PostgreSQL", "Groq", "OpenAI"],
       image: "/projects/sql-agent.jpg",
-      github: "https://github.com/Dadiya-Harsh/sql-agent",
+      github: "https://github.com/Dadiya-Harsh/sql-tool/",
       demo: "#"
     },
     {
@@ -23,7 +23,7 @@ const Projects = () => {
       description: "Implemented comprehensive Model Context Protocol for seamless LLM communication. Developed multiple transport layers and created various server implementations with asynchronous support and interactive interfaces.",
       technologies: ["Python", "Async Programming", "Transport Layers", "LLM Integration", "CLI Tools"],
       image: "/projects/mcp-protocol.jpg",
-      github: "https://github.com/Dadiya-Harsh/mcp-implementation",
+      github: "https://github.com/Dadiya-Harsh/MCP-DEMO/",
       demo: "#"
     },
     {
