@@ -54,6 +54,81 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+// API endpoint for Medium feed
+app.get('/api/medium', async (req, res) => {
+  try {
+    const feedUrl = 'https://medium.com/feed/@harshdadiya';
+    const response = await fetch(feedUrl);
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to fetch Medium feed' });
+    }
+
+    const xml = await response.text();
+
+    // Parse RSS feed
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let itemMatch;
+
+    while ((itemMatch = itemRegex.exec(xml)) !== null) {
+      const itemContent = itemMatch[1];
+
+      const titleMatch = /<title[^>]*?>\s*([\s\S]*?)\s*<\/title>/.exec(itemContent);
+      const linkMatch = /<link>([\s\S]*?)<\/link>/.exec(itemContent);
+      const pubDateMatch = /<pubDate>([\s\S]*?)<\/pubDate>/.exec(itemContent);
+      const descriptionMatch = /<description>([\s\S]*?)<\/description>/.exec(itemContent);
+      const categoryMatches = itemContent.match(/<category[^>]*?>([\s\S]*?)<\/category>/g) || [];
+
+      const cleanText = (str) => {
+        if (!str) return '';
+        let cleaned = str.trim();
+        if (cleaned.startsWith('<![CDATA[')) {
+          cleaned = cleaned.substring(9);
+        }
+        if (cleaned.endsWith(']]>')) {
+          cleaned = cleaned.substring(0, cleaned.length - 3);
+        }
+        cleaned = cleaned
+          .replace(/<[^>]*>/g, '')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .trim();
+        return cleaned;
+      };
+
+      const title = cleanText(titleMatch ? titleMatch[1] : '');
+      const link = cleanText(linkMatch ? linkMatch[1] : '');
+      const pubDate = cleanText(pubDateMatch ? pubDateMatch[1] : '');
+      const description = cleanText(descriptionMatch ? descriptionMatch[1] : '');
+
+      const categories = categoryMatches
+        .map((cat) => {
+          const match = /<category[^>]*?>([\s\S]*?)<\/category>/.exec(cat);
+          return match ? cleanText(match[1]) : '';
+        })
+        .filter((cat) => cat !== '');
+
+      if (title && link) {
+        items.push({
+          title,
+          link,
+          pubDate,
+          description: description.substring(0, 200) + (description.length > 200 ? '...' : ''),
+          categories,
+        });
+      }
+    }
+
+    const articles = items.slice(0, 6);
+    res.status(200).json({ articles });
+  } catch (error) {
+    console.error('Error fetching Medium feed:', error);
+    res.status(500).json({ error: 'Failed to fetch Medium feed' });
+  }
+});
+
 // Proxy all other requests to Vite dev server
 app.use(
   '/',
@@ -67,5 +142,6 @@ app.use(
 app.listen(PORT, () => {
   console.log(`\n🚀 Dev server running at http://localhost:${PORT}`);
   console.log(`📧 API endpoint available at http://localhost:${PORT}/api/contact`);
+  console.log(`📝 Blog API endpoint available at http://localhost:${PORT}/api/medium`);
   console.log(`🔄 Proxying to Vite at http://localhost:${VITE_PORT}\n`);
 });

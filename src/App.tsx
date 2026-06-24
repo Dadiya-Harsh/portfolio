@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
+import Blog from './pages/Blog';
+import Achievements from './pages/Achievements';
+import Resume from './pages/Resume';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -36,7 +39,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/resume" element={<Resume />} />
           </Routes>
         </main>
         <Footer />

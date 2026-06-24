@@ -28,8 +28,20 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
             <Link to="/projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               Projects
             </Link>
+            <Link to="/achievements" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Achievements
+            </Link>
+            <Link to="/blog" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Blog
+            </Link>
             <Link to="/contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               Contact
+            </Link>
+            <Link
+              to="/resume"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+            >
+              Resume
             </Link>
             <button
               onClick={toggleTheme}
@@ -89,11 +101,32 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
                 Projects
               </Link>
               <Link
+                to="/achievements"
+                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                Achievements
+              </Link>
+              <Link
+                to="/blog"
+                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                Blog
+              </Link>
+              <Link
                 to="/contact"
                 className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                to="/resume"
+                className="block px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                Resume
               </Link>
               <button
                 onClick={toggleTheme}
