@@ -1,3 +1,6 @@
+import { motion } from 'framer-motion';
+import { staggerContainer, staggerItem } from '../utils/animations';
+
 const Projects = () => {
   const projects = [
     {
@@ -35,15 +38,16 @@ const Projects = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-6xl mx-auto">
+      <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
         AI/ML Projects
-      </h1>
+      </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {projects.map((project, index) => (
-          <div
+          <motion.div
             key={index}
+            variants={staggerItem}
             className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105"
           >
             <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700">
@@ -82,11 +86,11 @@ const Projects = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="text-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Want to see more?
         </h2>
@@ -104,8 +108,8 @@ const Projects = () => {
           </svg>
           View GitHub Profile
         </a>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

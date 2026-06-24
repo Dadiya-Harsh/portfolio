@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { staggerContainer, staggerItem } from '../utils/animations';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -40,14 +42,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-4xl mx-auto">
+      <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
         Get in Touch
-      </h1>
+      </motion.h1>
 
-      <div className="grid md:grid-cols-2 gap-12">
+      <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.2 }} className="grid md:grid-cols-2 gap-12">
         {/* Contact Information */}
-        <div className="space-y-8">
+        <motion.div variants={staggerItem} className="space-y-8">
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
               Contact Information
@@ -103,10 +105,10 @@ const Contact = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Contact Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <motion.form variants={staggerItem} onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Name
@@ -158,9 +160,9 @@ const Contact = () => {
           >
             Send Message
           </button>
-        </form>
-      </div>
-    </div>
+        </motion.form>
+      </motion.div>
+    </motion.div>
   );
 };
 
