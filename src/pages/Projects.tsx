@@ -34,6 +34,14 @@ const Projects = () => {
       image: "/projects/aqi-monitoring.jpg",
       github: "https://github.com/Dadiya-Harsh/aqi-monitoring",
       demo: "#"
+    },
+    {
+      title: "OpenMontage — Open Source Contribution",
+      description: "Contributed a fix to OpenMontage, a 50k+ star AGPL-3.0 agent framework, resolving a skill-loading bug caused by missing YAML frontmatter and kebab/snake-case mismatches that broke skill resolution.",
+      technologies: ["Python", "YAML", "Agent Frameworks", "Open Source"],
+      image: "/projects/openmontage.jpg",
+      github: "https://github.com/calesthio/OpenMontage/issues/192",
+      demo: "#"
     }
   ];
 

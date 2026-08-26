@@ -43,12 +43,12 @@ const Achievements = () => {
       icon: <CodeBracketIcon className="w-8 h-8" />,
     },
     {
-      title: 'Open Source Contributions',
-      issuer: 'GitHub',
-      date: 'Ongoing',
-      description: 'Active contributor to multiple AI/ML open-source projects',
+      title: 'Open Source Contributor — OpenMontage',
+      issuer: 'calesthio/OpenMontage (50k+ stars, AGPL-3.0)',
+      date: '2026',
+      description: 'Fixed an agent skill-loading bug (missing YAML frontmatter, kebab/snake-case mismatch) that broke skill resolution — Issue #192.',
       icon: <GlobeAltIcon className="w-8 h-8" />,
-      link: 'https://github.com/Dadiya-Harsh',
+      link: 'https://github.com/calesthio/OpenMontage/issues/192',
     },
   ];
 
