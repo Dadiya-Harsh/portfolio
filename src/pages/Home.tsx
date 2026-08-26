@@ -12,10 +12,10 @@ const Home = () => {
           <img src="/images/profile.jpg" alt="Harsh Dadiya" className="w-full h-full object-cover" />
         </motion.div>
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.6 } }} className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-          AI Engineer & Data Scientist
+          AI Engineer
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.6 } }} className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-          AI Engineer with hands-on experience designing, deploying, and scaling enterprise AI systems, multi-agent architectures, and workflow automation platforms.
+          1.5+ years shipping production LLM systems in Python — real-time voice agents, MCP servers, multi-agent workflows, and RAG pipelines, running on FastAPI, PostgreSQL, and AWS.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.6 } }} className="flex flex-col sm:flex-row justify-center gap-4">
           <Link
@@ -46,30 +46,30 @@ const Home = () => {
         </h2>
         <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI/ML & Data Science</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI & LLM Engineering</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Python, TensorFlow, PyTorch</li>
-              <li>Scikit-learn, NumPy, Pandas</li>
-              <li>LangChain, Hugging Face</li>
-              <li>Vector Databases (Pinecone)</li>
+              <li>LLMs, RAG Pipelines, Prompt Engineering</li>
+              <li>OpenAI Agents SDK, OpenAI Realtime API</li>
+              <li>Model Context Protocol (MCP), Multi-Agent Architectures</li>
+              <li>LangChain, Conversational & Voice AI</li>
             </ul>
           </motion.div>
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Programming & Development</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Backend & Data</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Python, R, Java, JavaScript</li>
-              <li>Flask, SQL Alchemy</li>
-              <li>PostgreSQL, MySQL</li>
+              <li>Python, FastAPI, Flask, REST APIs, WebSockets</li>
+              <li>PostgreSQL, MySQL, Oracle Database, SQLAlchemy</li>
+              <li>Vector Stores: Qdrant, Pinecone</li>
               <li>Git, GitHub</li>
             </ul>
           </motion.div>
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI Specializations</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Cloud & Tooling</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Natural Language Processing</li>
-              <li>Computer Vision</li>
-              <li>Predictive Analytics</li>
-              <li>Neural Networks</li>
+              <li>AWS: Lambda, S3, RDS, IAM, Secrets Manager, CloudWatch</li>
+              <li>Oracle Cloud Infrastructure (OCI)</li>
+              <li>Docker, LLM Observability (Langfuse, OpenTelemetry)</li>
+              <li>Twilio, WhatsApp Business API</li>
             </ul>
           </motion.div>
         </motion.div>
@@ -85,14 +85,14 @@ const Home = () => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Associate AI Engineer - Wappnet Systems Pvt. Ltd.</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">June 2025 - Present</p>
             <p className="text-gray-600 dark:text-gray-300 mt-2">
-              Designed and deployed production-grade AI systems, multi-agent workflows, and cloud-native AI services using FastAPI, PostgreSQL, and AWS infrastructure.
+              Building production AI systems — a video generation pipeline for YouTube, a real-time voice agent on the OpenAI Realtime API, MCP servers exposing internal tools to AI agents, and RAG pipelines over 500+ enterprise documents, all running on FastAPI, PostgreSQL, and AWS.
             </p>
           </motion.div>
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">AI/ML Intern - Wappnet Systems Pvt. Ltd.</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">January 2025 - June 2025</p>
             <p className="text-gray-600 dark:text-gray-300 mt-2">
-              Gained hands-on experience in machine learning/deep learning applications and contributed to development of AI-driven enterprise solutions.
+              Built a recommendation system in Python for an enterprise client and deployed applications on Oracle Cloud Infrastructure (OCI), progressing to production ownership within six months.
             </p>
           </motion.div>
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">

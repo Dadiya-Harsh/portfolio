@@ -8,7 +8,7 @@ const About = () => {
       <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">About Me</h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-          AI Engineer with hands-on experience designing, deploying, and scaling enterprise AI systems, multi-agent architectures, cloud-native applications, and workflow automation platforms. Specialized in building production-grade AI solutions leveraging large language models, agent frameworks, MCP-based integrations, retrieval systems, and real-time conversational AI. Proven expertise in Anthropic-managed agents, Agent SDKs, AI workflow orchestration, and enterprise-grade automation that improves operational efficiency and business productivity.
+          AI Engineer with 1.5+ years shipping production LLM systems in Python — real-time voice agents, MCP servers, multi-agent workflows, and RAG pipelines, running on FastAPI, PostgreSQL, and AWS. I own features end to end, from design through deployment and production debugging, and contribute to open source (OpenMontage, 50k+ stars).
         </p>
       </motion.section>
 
@@ -26,14 +26,15 @@ const About = () => {
               </div>
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">June 2025 – Present</p>
             </div>
+            <p className="text-sm italic text-gray-500 dark:text-gray-400 mb-3">Promoted from AI/ML Intern after six months.</p>
             <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Designed and deployed production-grade AI systems leveraging Anthropic and OpenAI ecosystems, enabling intelligent automation across multiple business functions.</li>
-              <li>Architected multi-agent workflows capable of autonomous task execution, contextual reasoning, tool usage, and enterprise system interactions.</li>
-              <li>Developed scalable cloud-native AI services using FastAPI and PostgreSQL, deployed on AWS infrastructure including IAM, Secrets Manager, Lambda, S3, RDS, and CloudWatch.</li>
-              <li>Built and maintained MCP-based integrations connecting AI agents with enterprise applications and internal business systems.</li>
-              <li>Led development of enterprise knowledge management and retrieval systems supporting intelligent search and decision-making.</li>
-              <li>Designed real-time conversational AI platforms supporting voice, chat, and omnichannel customer interactions.</li>
-              <li>Established reusable AI service frameworks along with observability and monitoring practices to streamline deployment and maintain production reliability.</li>
+              <li>Built a video generation system producing themed long-form videos (up to 45 minutes) for multiple YouTube channels, matching each channel's format and tone — in active real-world use.</li>
+              <li>Built a real-time voice agent for customer support on the OpenAI Realtime API, streaming bidirectional audio between Twilio telephony and the model over FastAPI websockets.</li>
+              <li>Built MCP servers exposing internal business systems as agent-callable tools, usable from any MCP client including Claude Code and Codex.</li>
+              <li>Shipped multi-agent workflows with tool use and contextual reasoning across internal business functions, including automated research and reporting.</li>
+              <li>Built RAG pipelines over 500+ enterprise documents using the OpenAI Agents SDK and Qdrant for internal search and knowledge retrieval.</li>
+              <li>Built WhatsApp and web chat integrations for business sites, connecting customer conversations to internal systems.</li>
+              <li>Design and deploy FastAPI + PostgreSQL services on AWS (Lambda, S3, RDS, IAM, Secrets Manager, CloudWatch); established reusable logging and monitoring patterns across services.</li>
             </ul>
           </motion.div>
 
@@ -47,10 +48,9 @@ const About = () => {
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">January 2025 – June 2025</p>
             </div>
             <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Gained hands-on experience in machine learning and deep learning applications.</li>
-              <li>Contributed to development of AI-driven solutions and learned production-level implementation.</li>
-              <li>Worked closely with senior engineers to understand enterprise AI architecture and best practices.</li>
-              <li>Demonstrated strong technical skills and problem-solving ability, leading to promotion to Associate AI Engineer.</li>
+              <li>Built a recommendation system in Python for an enterprise client application.</li>
+              <li>Deployed applications on Oracle Cloud Infrastructure (OCI) and worked with Oracle Database as the backing data store.</li>
+              <li>Worked alongside senior engineers on enterprise AI architecture, code review, and deployment workflows — progressing to production ownership within six months.</li>
             </ul>
           </motion.div>
 
@@ -73,41 +73,69 @@ const About = () => {
         </motion.div>
       </motion.section>
 
+      {/* Open Source Section */}
+      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Open Source</h2>
+        <motion.div variants={staggerItem} initial="initial" whileInView="animate" viewport={{ once: true }} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <a href="https://github.com/calesthio/OpenMontage" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 hover:underline">
+                  OpenMontage
+                </a>
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400">calesthio/OpenMontage · 50k+ stars · AGPL-3.0</p>
+            </div>
+            <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">June 2026</p>
+          </div>
+          <p className="text-gray-600 dark:text-gray-300">
+            Fixed an agent skill-loading bug (missing YAML frontmatter, kebab/snake-case mismatch) that broke skill resolution in a system built on the framework —{' '}
+            <a href="https://github.com/calesthio/OpenMontage/issues/192" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Issue #192
+            </a>.
+          </p>
+        </motion.div>
+      </motion.section>
+
       {/* Technical Skills Section */}
       <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Technical Skills</h2>
         <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI & LLM</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI & Machine Learning</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• Anthropic Claude, Claude Sonnet 4.6, Opus 4.x models, GPT-4, GPT Realtime Models</li>
-              <li>• Agent SDKs, Multi-Agent Systems, Function Calling, Tool Use Architectures</li>
-              <li>• RAG Pipelines, Prompt Engineering, Semantic Search, Vector Search</li>
+              <li>• LLMs, Generative AI, Prompt Engineering, RAG Pipelines</li>
+              <li>• OpenAI Agents SDK, OpenAI Realtime API, Model Context Protocol (MCP)</li>
+              <li>• Multi-Agent Architectures, LangChain, Conversational & Voice AI</li>
+              <li>• LLM Observability & Tracing (Langfuse, OpenTelemetry)</li>
+              <li>• NumPy, Pandas, scikit-learn, PyTorch</li>
             </ul>
           </motion.div>
 
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Cloud & Infra</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Backend & Data</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• AWS: EC2, Lambda, API Gateway, RDS (PostgreSQL), DynamoDB, S3, CloudWatch, SQS</li>
-              <li>• Secrets Manager, IAM, VPC Architecture, CI/CD Pipelines, Containerized Deployments</li>
+              <li>• Python, SQL, FastAPI, Flask, REST APIs, WebSockets</li>
+              <li>• PostgreSQL, MySQL, Oracle Database, SQLAlchemy</li>
+              <li>• Vector Stores: Qdrant, Pinecone</li>
             </ul>
           </motion.div>
 
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Backend Development</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Cloud & Operations</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• Python, FastAPI, Django, PostgreSQL, REST APIs</li>
-              <li>• WebSockets, Async Programming, Microservices & API Design</li>
+              <li>• AWS: Lambda, S3, RDS, IAM, Secrets Manager, CloudWatch</li>
+              <li>• Oracle Cloud Infrastructure (OCI)</li>
+              <li>• Docker, Git, GitHub, Linux, logging & monitoring</li>
             </ul>
           </motion.div>
 
           <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Integrations & Frameworks</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Integrations</h3>
             <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• Slack, Jira, Notion, Google Workspace (Calendar, Gmail)</li>
-              <li>• Microsoft Graph / Outlook, Twilio, MCP Servers, OAuth</li>
+              <li>• Twilio, WhatsApp Business API</li>
+              <li>• MCP client integrations (Claude Code, Codex)</li>
             </ul>
           </motion.div>
 
@@ -121,21 +149,15 @@ const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-gray-700 dark:text-gray-300 text-sm">
             <div>• Agentic AI Systems</div>
             <div>• Multi-Agent Architectures</div>
-            <div>• Anthropic Claude Managed Agents</div>
-            <div>• Claude Agent SDK</div>
             <div>• Model Context Protocol (MCP)</div>
-            <div>• Enterprise AI Automation</div>
-            <div>• AI Workflow Orchestration</div>
             <div>• Large Language Models (LLMs)</div>
-            <div>• RAG Pipelines</div>
-            <div>• Conversational AI</div>
-            <div>• Real-Time Voice Agents</div>
-            <div>• Cloud Architecture (AWS, Bedrock)</div>
-            <div>• Microservices & API Design</div>
-            <div>• Enterprise Integrations</div>
-            <div>• Knowledge Management</div>
-            <div>• Semantic & Vector Search</div>
-            <div>• AI Platform Engineering</div>
+            <div>• RAG Pipelines & Vector Search</div>
+            <div>• Real-Time Voice & Conversational AI</div>
+            <div>• LLM Observability & Tracing</div>
+            <div>• Cloud Architecture (AWS, OCI)</div>
+            <div>• Backend & API Engineering</div>
+            <div>• Enterprise Integrations (WhatsApp, Twilio)</div>
+            <div>• Production Debugging & Ownership</div>
             <div>• Prompt Engineering</div>
           </div>
         </div>
