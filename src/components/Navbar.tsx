@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface NavbarProps {
   toggleTheme: () => void;
@@ -8,53 +8,65 @@ interface NavbarProps {
 
 const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Achievements', path: '/achievements' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold text-gray-800 dark:text-white">
+    <nav className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-colors duration-300">
+      <div className="container py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="text-xl font-bold tracking-tight text-textPrimary hover:text-accent transition-colors">
             Harsh Dadiya
           </Link>
-          
+
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8 items-center">
-            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              Home
-            </Link>
-            <Link to="/about" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              About
-            </Link>
-            <Link to="/projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              Projects
-            </Link>
-            <Link to="/achievements" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              Achievements
-            </Link>
-            <Link to="/blog" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              Blog
-            </Link>
-            <Link to="/contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-              Contact
-            </Link>
+          <div className="hidden md:flex space-x-1 items-center">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${isActive
+                    ? 'text-accent bg-accent/10'
+                    : 'text-textSecondary hover:text-textPrimary hover:bg-elevated'
+                    }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+
+            <div className="w-px h-5 bg-border mx-2"></div>
+
             <Link
               to="/resume"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              className="px-5 py-2 bg-accent text-white rounded-full hover:bg-accentHover transition-colors text-sm font-medium ml-2 shadow-sm"
             >
               Resume
             </Link>
+
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              className="p-2 ml-4 rounded-full text-textSecondary hover:bg-elevated hover:text-textPrimary transition-colors flex items-center justify-center"
               aria-label="Toggle theme"
             >
               {currentTheme === 'dark' ? (
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.292 8.634a1 1 0 00-1.002-.634h-2.181a.999.999 0 00-.987 1.157 6.002 6.002 0 011.002 3.125.997.997 0 00.999.988h2.181a1 1 0 00.988-1.157 6.002 6.002 0 01-1.002-3.125zM12 2a10 10 0 100 20 10 10 0 000-20zM2.083 10a8 8 0 1115.834 0 8 8 0 01-15.834 0z" />
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               ) : (
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.356 4.356a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM17 10a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.072 14.928a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707zM10 15a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.356-4.356a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM3 10a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM14.928 5.072a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707z" />
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
             </button>
@@ -62,7 +74,7 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-gray-600 dark:text-gray-300"
+            className="md:hidden p-2 text-textSecondary hover:text-textPrimary"
             onClick={() => setIsOpen(!isOpen)}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,63 +89,37 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                to="/"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/projects"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Projects
-              </Link>
-              <Link
-                to="/achievements"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Achievements
-              </Link>
-              <Link
-                to="/blog"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Blog
-              </Link>
-              <Link
-                to="/contact"
-                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
+          <div className="md:hidden mt-4 pb-4 bg-surface rounded-2xl border border-border p-4 shadow-lg">
+            <div className="flex flex-col space-y-2">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`block px-4 py-3 rounded-xl text-base font-medium ${isActive
+                      ? 'text-accent bg-accent/10'
+                      : 'text-textSecondary hover:text-textPrimary hover:bg-elevated'
+                      }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
               <Link
                 to="/resume"
-                className="block px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-center"
+                className="block px-4 py-3 bg-accent text-white rounded-xl hover:bg-accentHover transition-colors text-center font-medium mt-4"
                 onClick={() => setIsOpen(false)}
               >
                 Resume
               </Link>
               <button
                 onClick={toggleTheme}
-                className="block w-full text-left px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                aria-label="Toggle theme"
+                className="block w-full text-left px-4 py-3 rounded-xl hover:bg-elevated text-textSecondary hover:text-textPrimary transition-colors font-medium mt-2 flex items-center justify-between"
               >
-                {currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                <span>{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                {currentTheme === 'dark' ? '☀️' : '🌙'}
               </button>
             </div>
           </div>

@@ -8,6 +8,8 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import Achievements from './pages/Achievements';
 import Resume from './pages/Resume';
+import CaseStudy from './pages/CaseStudy';
+import CaseStudiesIndex from './pages/CaseStudiesIndex';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -32,9 +34,9 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-page text-textPrimary antialiased transition-colors duration-300 flex flex-col">
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 pt-28 pb-12 flex-grow flex flex-col">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -43,6 +45,8 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resume" element={<Resume />} />
+            <Route path="/case-studies" element={<CaseStudiesIndex />} />
+            <Route path="/case-studies/:id" element={<CaseStudy />} />
           </Routes>
         </main>
         <Footer />

@@ -1,48 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light Mode */
+    --bg-page: #f7f7f8;
+    --bg-surface: #ffffff;
+    --bg-elevated: #f0f0f2;
+    --border: rgba(0, 0, 0, 0.08);
+    --text-primary: #111113;
+    --text-secondary: #65656d;
+    --accent: #e04e18;
+    --accent-hover: #c44314;
+  }
+
+  .dark {
+    /* Dark Mode */
+    --bg-page: #111113;
+    --bg-surface: #1a1a1e;
+    --bg-elevated: #252529;
+    --border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ededef;
+    --text-secondary: #9d9da5;
+    --accent: #f06830;
+    --accent-hover: #f38050;
+  }
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply antialiased;
+    @apply antialiased bg-page text-textPrimary transition-colors duration-300;
+    font-family: 'Inter', sans-serif;
   }
 }
 
 @layer components {
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-6xl mx-auto px-6 lg:px-8;
   }
-  
-  .section-padding {
-    @apply py-16 px-4 md:px-8 lg:px-16;
-  }
-  
-  .heading {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-8;
-  }
-  
-  .subheading {
-    @apply text-xl md:text-2xl text-textSecondary mb-4;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500 dark:bg-gray-500;
 }

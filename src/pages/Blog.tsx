@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { fadeInUp, staggerContainer, staggerItem } from '../utils/animations';
 
 interface Article {
   title: string;
@@ -36,7 +35,7 @@ const Blog = () => {
   const cleanText = (str: string) => {
     if (!str) return '';
     let cleaned = str.trim();
-    
+
     // Strip CDATA if present
     if (cleaned.startsWith('<![CDATA[')) {
       cleaned = cleaned.substring(9);
@@ -44,10 +43,10 @@ const Blog = () => {
     if (cleaned.endsWith(']]>')) {
       cleaned = cleaned.substring(0, cleaned.length - 3);
     }
-    
+
     // Strip any HTML tags that might remain
     cleaned = cleaned.replace(/<[^>]*>/g, '');
-    
+
     // Decode common HTML entities
     const htmlEntities: { [key: string]: string } = {
       '&#x2019;': "'",
@@ -101,108 +100,106 @@ const Blog = () => {
   };
 
   return (
-    <motion.div {...fadeInUp} className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 text-center">
-        Writing
-      </h1>
-      <p className="text-center text-gray-600 dark:text-gray-300 mb-12 text-lg">
-        Articles on AI, Machine Learning & Data Science
-      </p>
+    <div className="max-w-4xl mx-auto py-12">
+      <section className="text-center max-w-2xl mx-auto mb-16">
+        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold text-textPrimary mb-6 tracking-tight">
+          Writing
+        </motion.h1>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-lg text-textSecondary">
+          Articles on AI, Machine Learning & Data Science
+        </motion.p>
+      </section>
 
       {loading ? (
-        <motion.div
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="space-y-6"
-        >
+        <div className="space-y-6">
           {[1, 2, 3].map((i) => (
             <motion.div
               key={i}
-              variants={staggerItem}
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg h-48 animate-pulse"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-surface border border-border p-8 rounded-2xl h-48 animate-pulse"
             >
-              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-              <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-full mb-3"></div>
-              <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-5/6"></div>
+              <div className="h-4 bg-border rounded w-1/4 mb-4"></div>
+              <div className="h-6 bg-border rounded w-3/4 mb-6"></div>
+              <div className="h-4 bg-border rounded w-full mb-3"></div>
+              <div className="h-4 bg-border rounded w-5/6"></div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       ) : error ? (
-        <motion.div {...fadeInUp} className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+          <p className="text-textSecondary mb-6">
             Unable to load articles at the moment.
           </p>
           <a
             href="https://medium.com/@harshdadiya"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-textPrimary text-page px-6 py-3 rounded-full hover:opacity-90 transition-opacity font-medium"
           >
             View on Medium
           </a>
         </motion.div>
       ) : articles.length > 0 ? (
-        <motion.div
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.2 }}
-          className="space-y-6"
-        >
+        <div className="space-y-6">
           {articles.map((article, index) => (
             <motion.a
               key={index}
-              variants={staggerItem}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               href={article.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              className="block group bg-surface border border-border p-8 rounded-2xl shadow-sm hover:border-accent transition-all duration-300"
             >
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex-1">
-                  <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    {cleanText(article.title)}
-                  </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    {formatDate(article.pubDate)}
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed font-normal">
-                    {cleanText(article.description)}
-                  </p>
-                  {article.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {article.categories.slice(0, 3).map((category, catIndex) => (
-                        <span
-                          key={catIndex}
-                          className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-xs"
-                        >
-                          {cleanText(category)}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                <h2 className="text-2xl font-bold text-textPrimary group-hover:text-accent transition-colors flex-1 line-clamp-1">
+                  {cleanText(article.title)}
+                </h2>
+                <div className="flex items-center gap-2 text-textSecondary text-sm shrink-0 font-medium bg-elevated px-4 py-1.5 rounded-full border border-border">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  {formatDate(article.pubDate)}
                 </div>
               </div>
+
+              <p className="text-textSecondary mb-6 leading-relaxed line-clamp-2 md:line-clamp-3">
+                {cleanText(article.description)}
+              </p>
+
+              {article.categories.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {article.categories.slice(0, 3).map((category, catIndex) => (
+                    <span
+                      key={catIndex}
+                      className="px-3 py-1 bg-elevated text-textSecondary border border-border rounded-lg text-xs font-medium"
+                    >
+                      {cleanText(category)}
+                    </span>
+                  ))}
+                </div>
+              )}
             </motion.a>
           ))}
-        </motion.div>
+        </div>
       ) : (
-        <motion.div {...fadeInUp} className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+          <p className="text-textSecondary mb-6">
             No articles found. Check back soon!
           </p>
           <a
             href="https://medium.com/@harshdadiya"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-textPrimary text-page px-6 py-3 rounded-full hover:opacity-90 transition-opacity font-medium"
           >
             Follow on Medium
           </a>
         </motion.div>
       )}
-    </motion.div>
+    </div>
   );
 };
 
