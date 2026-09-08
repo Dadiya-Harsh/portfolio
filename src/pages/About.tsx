@@ -1,210 +1,378 @@
-import { motion } from 'framer-motion';
-import { staggerContainer, staggerItem, fadeIn } from '../utils/animations';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+
+const techPills = [
+  { label: 'Python', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg' },
+  { label: 'LLMs', emoji: '🧠' },
+  { label: 'RAG', emoji: '🗃️' },
+  { label: 'Agents', emoji: '🤖' },
+  { label: 'MCP', emoji: '🔗' },
+  { label: 'AWS', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg' },
+  { label: 'Claude Code', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
+  { label: 'OpenAI Agents', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/openai.svg' },
+  { label: 'LangChain', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/langchain.svg' },
+  { label: 'Claude Agents SDK', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
+];
 
 const About = () => {
+  const [showEarlier, setShowEarlier] = useState(false);
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-4xl mx-auto space-y-12">
-      {/* About Me / Summary Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">About Me</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-          AI Engineer with 1.5+ years shipping production LLM systems in Python — real-time voice agents, MCP servers, multi-agent workflows, and RAG pipelines, running on FastAPI, PostgreSQL, and AWS. I own features end to end, from design through deployment and production debugging, and contribute to open source (OpenMontage, 50k+ stars).
-        </p>
-      </motion.section>
+    <div className="space-y-0 pb-16">
 
-      {/* Professional Journey Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Professional Journey</h2>
-        <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.1 }} className="space-y-6">
-          
-          {/* Associate AI Engineer */}
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Associate AI Engineer</h3>
-                <p className="text-gray-500 dark:text-gray-400">Wappnet Systems Pvt. Ltd. | Gujarat, India</p>
-              </div>
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">June 2025 – Present</p>
+      {/* ─── 1. HERO SPLIT CARD ─── */}
+      <section className="max-w-6xl mx-auto px-4 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col md:flex-row gap-10 lg:gap-16 items-center"
+        >
+          {/* Left: Photo Container */}
+          <div className="relative w-full md:w-[40%] rounded-[2rem] overflow-hidden shadow-2xl shrink-0 border border-border">
+            {/* Full-bleed image */}
+            <img
+              src="/images/profile.jpg"
+              alt="Harsh Dadiya"
+              className="w-full aspect-[4/5] object-cover"
+            />
+
+            {/* Dark gradient scrim at bottom for text readability */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+
+            {/* Open to Opportunities badge */}
+            <div className="absolute top-5 left-5 flex items-center gap-2 bg-black/50 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-sm z-10">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-white/95 text-xs font-semibold">Open to Opportunities</span>
             </div>
-            <p className="text-sm italic text-gray-500 dark:text-gray-400 mb-3">Promoted from AI/ML Intern after six months.</p>
-            <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Built a video generation system producing themed long-form videos (up to 45 minutes) for multiple YouTube channels, matching each channel's format and tone — in active real-world use.</li>
-              <li>Built a real-time voice agent for customer support on the OpenAI Realtime API, streaming bidirectional audio between Twilio telephony and the model over FastAPI websockets.</li>
-              <li>Built MCP servers exposing internal business systems as agent-callable tools, usable from any MCP client including Claude Code and Codex.</li>
-              <li>Shipped multi-agent workflows with tool use and contextual reasoning across internal business functions, including automated research and reporting.</li>
-              <li>Built RAG pipelines over 500+ enterprise documents using the OpenAI Agents SDK and Qdrant for internal search and knowledge retrieval.</li>
-              <li>Built WhatsApp and web chat integrations for business sites, connecting customer conversations to internal systems.</li>
-              <li>Design and deploy FastAPI + PostgreSQL services on AWS (Lambda, S3, RDS, IAM, Secrets Manager, CloudWatch); established reusable logging and monitoring patterns across services.</li>
-            </ul>
-          </motion.div>
 
-          {/* AI/ML Intern */}
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">AI/ML Intern</h3>
-                <p className="text-gray-500 dark:text-gray-400">Wappnet Systems Pvt. Ltd. | Gujarat, India</p>
-              </div>
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">January 2025 – June 2025</p>
+            {/* Handwritten note — on the image bottom-left */}
+            <div className="absolute bottom-6 left-6 z-10 rotate-[-4deg]">
+              <span style={{ fontFamily: 'Caveat, cursive' }} className="text-white text-2xl leading-[1.1] drop-shadow-md">
+                Build<br />Ship<br />Learn<br />Repeat
+              </span>
+              <div className="mt-1.5 w-16 h-[2px] bg-white/50 rounded-full" />
             </div>
-            <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Built a recommendation system in Python for an enterprise client application.</li>
-              <li>Deployed applications on Oracle Cloud Infrastructure (OCI) and worked with Oracle Database as the backing data store.</li>
-              <li>Worked alongside senior engineers on enterprise AI architecture, code review, and deployment workflows — progressing to production ownership within six months.</li>
-            </ul>
-          </motion.div>
+          </div>
 
-          {/* Data Science & Machine Learning Intern */}
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Data Science & Machine Learning Intern</h3>
-                <p className="text-gray-500 dark:text-gray-400">BrainyBeam Info-Tech Pvt. Ltd. | Gujarat, India</p>
-              </div>
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">June 2024 - July 2024</p>
-            </div>
-            <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
-              <li>Developed an intelligent Air Quality Index (AQI) monitoring system using advanced data science techniques.</li>
-              <li>Analyzed multiple air quality parameters (PM2.5, PM10, O3, NO2, CO, SO2) from environmental monitoring stations.</li>
-              <li>Created data visualization dashboards for real-time AQI tracking and historical trend analysis.</li>
-            </ul>
-          </motion.div>
-
-        </motion.div>
-      </motion.section>
-
-      {/* Open Source Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Open Source</h2>
-        <motion.div variants={staggerItem} initial="initial" whileInView="animate" viewport={{ once: true }} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+          {/* Right: Intro Text */}
+          <div className="w-full md:w-[60%] flex flex-col justify-center space-y-5">
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                <a href="https://github.com/calesthio/OpenMontage" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 hover:underline">
-                  OpenMontage
-                </a>
-              </h3>
-              <p className="text-gray-500 dark:text-gray-400">calesthio/OpenMontage · 50k+ stars · AGPL-3.0</p>
+              <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-2">About Me</p>
+              <h1 className="text-4xl lg:text-5xl font-extrabold text-textPrimary tracking-tight leading-tight">
+                I'm Harsh Dadiya
+              </h1>
             </div>
-            <p className="text-sm font-medium text-blue-600 dark:text-blue-400 md:mt-1">June 2026</p>
+
+            <p className="text-[17px] font-semibold text-textPrimary/90 leading-snug">
+              An AI Engineer focused on shipping production LLM systems in Python and contributing to open source like OpenMontage.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              I'm an AI Engineer with 1.5+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I'm also an active open source contributor, with contributions to OpenMontage (50K+ stars), and I love exploring new technologies like MCP, RAG, and multi-agent systems.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              When I'm not building, you'll find me writing about AI, learning something new, or tinkering with side projects.
+            </p>
+
+            {/* Tech pills */}
+            <div className="flex flex-wrap gap-2.5 pt-2">
+              {techPills.map(({ label, emoji, iconUrl }) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-surface border border-border rounded-full text-sm font-semibold text-textPrimary hover:border-accent/60 transition-colors shadow-sm"
+                >
+                  {iconUrl ? (
+                    <img src={iconUrl} alt={label} className="w-4 h-4 dark:invert opacity-80" />
+                  ) : (
+                    <span>{emoji}</span>
+                  )}
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
-          <p className="text-gray-600 dark:text-gray-300">
-            Fixed an agent skill-loading bug (missing YAML frontmatter, kebab/snake-case mismatch) that broke skill resolution in a system built on the framework —{' '}
-            <a href="https://github.com/calesthio/OpenMontage/issues/192" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Issue #192
-            </a>.
-          </p>
         </motion.div>
-      </motion.section>
+      </section>
 
-      {/* Technical Skills Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Technical Skills</h2>
-        <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">AI & Machine Learning</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• LLMs, Generative AI, Prompt Engineering, RAG Pipelines</li>
-              <li>• OpenAI Agents SDK, OpenAI Realtime API, Model Context Protocol (MCP)</li>
-              <li>• Multi-Agent Architectures, LangChain, Conversational & Voice AI</li>
-              <li>• LLM Observability & Tracing (Langfuse, OpenTelemetry)</li>
-              <li>• NumPy, Pandas, scikit-learn, PyTorch</li>
-            </ul>
-          </motion.div>
+      {/* ─── 2. PROFESSIONAL JOURNEY (responsive theme) ─── */}
+      <section className="bg-surface border-y border-border py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Section header */}
+          <div className="text-center mb-8">
+            <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-xs mb-2">My Journey</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-textPrimary tracking-tight">Professional Journey</h2>
+            <p className="text-textSecondary text-sm font-medium mt-2 max-w-lg mx-auto">
+              A timeline of my professional experience and growth in the AI/ML space.
+            </p>
+          </div>
 
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Backend & Data</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• Python, SQL, FastAPI, Flask, REST APIs, WebSockets</li>
-              <li>• PostgreSQL, MySQL, Oracle Database, SQLAlchemy</li>
-              <li>• Vector Stores: Qdrant, Pinecone</li>
-            </ul>
-          </motion.div>
+          {/* Timeline */}
+          <div className="relative">
+            {/* Central vertical line */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
 
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Cloud & Operations</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• AWS: Lambda, S3, RDS, IAM, Secrets Manager, CloudWatch</li>
-              <li>• Oracle Cloud Infrastructure (OCI)</li>
-              <li>• Docker, Git, GitHub, Linux, logging & monitoring</li>
-            </ul>
-          </motion.div>
+            {/* Present dot at top */}
+            <div className="relative flex justify-center mb-2 z-10">
+              <span className="bg-accent text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-lg shadow-accent/30">Present</span>
+            </div>
 
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Integrations</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li>• Twilio, WhatsApp Business API</li>
-              <li>• MCP client integrations (Claude Code, Codex)</li>
-            </ul>
-          </motion.div>
+            {/* Role 1 — left card, current */}
+            <div className="relative grid grid-cols-2 gap-0 mb-6">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="pr-8 flex justify-end"
+              >
+                <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-textSecondary text-xs font-semibold">Aug 2024 – Present</span>
+                    <span className="bg-accent/20 text-accent text-xs font-bold px-2 py-0.5 rounded-full">Current</span>
+                  </div>
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Associate AI Engineer</h3>
+                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <circle cx="50" cy="50" r="50" fill="#313645" />
+                        <line x1="24" y1="30" x2="34" y2="64" stroke="#F39C12" strokeWidth="8.5" strokeLinecap="round" />
+                        <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    </div>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                  </a>
+                  <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                    <li>• Building and shipping production-grade AI features and tools.</li>
+                    <li>• Working on generative long-form video pipelines using LLMs, Remotion and AWS.</li>
+                    <li>• Integrated OpenAI Realtime API for voice agents and conversational AI systems.</li>
+                    <li>• Developing RAG pipelines and multi-agent workflows for business applications.</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-1">
+                    {['Python', 'FastAPI', 'AWS', 'OpenAI', 'RAG', 'Agents'].map(t => (
+                      <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
 
-        </motion.div>
-      </motion.section>
+              {/* Center dot */}
+              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-accent border-4 border-surface z-10 shadow-lg shadow-accent/40" />
 
-      {/* Core Competencies Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Core Competencies</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-gray-700 dark:text-gray-300 text-sm">
-            <div>• Agentic AI Systems</div>
-            <div>• Multi-Agent Architectures</div>
-            <div>• Model Context Protocol (MCP)</div>
-            <div>• Large Language Models (LLMs)</div>
-            <div>• RAG Pipelines & Vector Search</div>
-            <div>• Real-Time Voice & Conversational AI</div>
-            <div>• LLM Observability & Tracing</div>
-            <div>• Cloud Architecture (AWS, OCI)</div>
-            <div>• Backend & API Engineering</div>
-            <div>• Enterprise Integrations (WhatsApp, Twilio)</div>
-            <div>• Production Debugging & Ownership</div>
-            <div>• Prompt Engineering</div>
+              <div className="pl-8" /> {/* Empty right side for this row */}
+            </div>
+
+            {/* Role 2 — right card */}
+            <div className="relative grid grid-cols-2 gap-0 mb-6">
+              <div className="pr-8" /> {/* Empty left side for this row */}
+
+              {/* Center dot */}
+              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="pl-8 flex justify-start"
+              >
+                <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                  <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2024 – Aug 2024</span>
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">AI/ML Intern</h3>
+                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <circle cx="50" cy="50" r="50" fill="#313645" />
+                        <line x1="24" y1="30" x2="34" y2="64" stroke="#F39C12" strokeWidth="8.5" strokeLinecap="round" />
+                        <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    </div>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                  </a>
+                  <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                    <li>• Worked on internal AI tools and automation systems.</li>
+                    <li>• Built and evaluated RAG pipelines for document understanding.</li>
+                    <li>• Contributed to generative video workflows and data processing tools.</li>
+                    <li>• Explored OpenAI APIs and multimodal AI capabilities.</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Python', 'LangChain', 'OpenAI', 'RAG', 'Computer Vision'].map(t => (
+                      <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Earlier Roles (Toggleable) */}
+            <AnimatePresence>
+              {showEarlier && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  {/* Role 3 — left card */}
+                  <div className="relative grid grid-cols-2 gap-0 mb-6 mt-6">
+                    <motion.div
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="pr-8 flex justify-end"
+                    >
+                      <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                        <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
+                        <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Data Science & ML Intern</h3>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-background">B</div>
+                          <span className="text-textSecondary text-sm font-semibold">BrainyBeam Info-Tech</span>
+                        </div>
+                        <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                          <li>• Developed an intelligent AQI monitoring system.</li>
+                          <li>• Analyzed PM2.5, PM10, and NO2 parameters using Pandas and scikit-learn.</li>
+                        </ul>
+                        <div className="flex flex-wrap gap-1">
+                          {['Python', 'Pandas', 'scikit-learn'].map(t => (
+                            <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Center dot */}
+                    <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+
+                    <div className="pl-8" /> {/* Empty right side */}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Bottom Row: Quote (Left) & Earlier Toggle (Center) */}
+            <div className="relative grid grid-cols-2 gap-0 pt-0">
+              {/* Left Side: Quote Block */}
+              <div className="pr-8 flex flex-col justify-end">
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="max-w-sm ml-auto text-left"
+                >
+                  <span className="text-accent text-3xl font-extrabold leading-none block mb-1">"</span>
+                  <p style={{ fontFamily: 'Caveat, cursive' }} className="text-textSecondary text-xl leading-snug">
+                    Consistency beats intensity.<br />
+                    Ship small, learn fast, keep building."
+                  </p>
+                  <p className="text-textSecondary opacity-60 text-xs font-semibold mt-3">— Harsh Dadiya</p>
+                </motion.div>
+              </div>
+
+              {/* Center Dot & Right Side Empty */}
+              <div className="relative pl-8 flex flex-col justify-end">
+                {/* Earlier Toggle Button replacing the line's end */}
+                <div className="absolute left-0 top-auto bottom-0 -translate-x-1/2 translate-y-1/2 flex justify-center z-10 w-full sm:w-auto">
+                  <button
+                    onClick={() => setShowEarlier(!showEarlier)}
+                    className="group flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 bg-surface p-1 outline-none"
+                  >
+                    <div className={`w-3.5 h-3.5 rounded-full border-4 border-surface transition-colors ${showEarlier ? 'bg-accent' : 'bg-border group-hover:bg-accent'}`} />
+                    <span className={`text-sm font-semibold transition-colors ${showEarlier ? 'text-textPrimary' : 'text-textSecondary group-hover:text-textPrimary'}`}>
+                      {showEarlier ? 'Hide Earlier' : 'Earlier'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Education Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Education</h2>
-        <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.1 }} className="space-y-4">
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Bachelor of Engineering - Information Technology</h3>
-            <p className="text-gray-500 dark:text-gray-400">A D Patel Institute of Technology | 2021 - 2025</p>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              CGPA: 8.14 / 10 - Focused on artificial intelligence, machine learning, and data science applications.
-            </p>
-          </motion.div>
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Minor Degree - Internet of Things</h3>
-            <p className="text-gray-500 dark:text-gray-400">A D Patel Institute of Technology | 2022 - 2024</p>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              CGPA: 7.56 / 10 - Specialized in IoT technologies and embedded systems integration.
-            </p>
-          </motion.div>
-          <motion.div variants={staggerItem} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Higher Secondary Education (Science)</h3>
-            <p className="text-gray-500 dark:text-gray-400">Shree Swaminarayan English Medium School | 2019 - 2021</p>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              Percentage: 87.8%
-            </p>
-          </motion.div>
-        </motion.div>
-      </motion.section>
-
-      {/* Certifications Section */}
-      <motion.section variants={fadeIn} initial="initial" whileInView="animate" viewport={{ once: true }}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Certifications & Achievements</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-          <ul className="space-y-3 text-gray-600 dark:text-gray-300">
-            <li>• <strong><a href="https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Machine Learning Specialization by DeepLearning.AI</a></strong> - Specialization in Machine Learning</li>
-            <li>• <strong>Code Unnati Innovation Marathon</strong> - SAP India & Edunet Foundation (Advanced AI/ML Program)</li>
-            <li>• <strong>SSIP Hackathon Participant</strong> - Gujarat State Innovation Program</li>
-            <li>• <strong>HackerRank Certified</strong> - Python Programming and Data Structures</li>
-            <li>• Active contributor to open-source AI/ML projects on GitHub</li>
-          </ul>
+      {/* ─── 3. SKILLS ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-20">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Technical Radar</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Skills & Stack</h2>
         </div>
-      </motion.section>
-    </motion.div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-surface border border-border p-6 rounded-2xl">
+            <h3 className="text-lg font-bold text-textPrimary mb-4">AI & Machine Learning</h3>
+            <div className="flex flex-wrap gap-2">
+              {['LLMs', 'Prompt Engineering', 'RAG Pipelines', 'OpenAI Agents SDK', 'OpenAI Realtime API', 'MCP', 'LangChain', 'Langfuse', 'PyTorch'].map(skill => (
+                <span key={skill} className="px-3 py-1.5 bg-elevated text-textPrimary text-sm font-medium rounded-lg border border-border">{skill}</span>
+              ))}
+            </div>
+          </div>
+          <div className="bg-surface border border-border p-6 rounded-2xl">
+            <h3 className="text-lg font-bold text-textPrimary mb-4">Backend & Cloud</h3>
+            <div className="flex flex-wrap gap-2">
+              {['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Qdrant', 'AWS (Lambda, ECS, S3)', 'Docker', 'WebSockets'].map(skill => (
+                <span key={skill} className="px-3 py-1.5 bg-elevated text-textPrimary text-sm font-medium rounded-lg border border-border">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 4. EDUCATION ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-16">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Academic Background</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Education</h2>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-surface border border-border p-6 rounded-2xl">
+            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2021 – 2025</p>
+            <h3 className="text-lg font-bold text-textPrimary mb-2">Bachelor of Engineering (IT)</h3>
+            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
+          </div>
+          <div className="bg-surface border border-border p-6 rounded-2xl">
+            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2022 – 2024</p>
+            <h3 className="text-lg font-bold text-textPrimary mb-2">Minor Degree (IoT)</h3>
+            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 5. CERTIFICATIONS ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-16 pb-8">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Recognition</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Certifications & Recognition</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { icon: <AcademicCapIcon className="w-5 h-5" />, title: 'Machine Learning Specialization', issuer: 'DeepLearning.AI & Coursera', date: '2024', link: 'https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S' },
+            { icon: <SparklesIcon className="w-5 h-5" />, title: 'Code Unnati Innovation Marathon', issuer: 'SAP India & Edunet Foundation', date: '2024' },
+            { icon: <TrophyIcon className="w-5 h-5" />, title: 'SSIP Hackathon Participant', issuer: 'Gujarat State Innovation Program', date: '2023–2024' },
+            { icon: <CodeBracketIcon className="w-5 h-5" />, title: 'HackerRank Certified', issuer: 'Python & Data Structures', date: '2023' },
+          ].map((cert, i) => {
+            const inner = (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-surface border border-border p-5 rounded-2xl flex items-start gap-4 hover:border-accent transition-colors"
+              >
+                <div className="p-2 bg-accent/10 text-accent rounded-xl shrink-0">{cert.icon}</div>
+                <div>
+                  <p className="font-bold text-textPrimary text-sm">{cert.title}</p>
+                  <p className="text-textSecondary text-xs mt-0.5">{cert.issuer}</p>
+                  <p className="text-textSecondary text-xs mt-0.5 opacity-60">{cert.date}</p>
+                </div>
+              </motion.div>
+            );
+            return cert.link ? <a key={i} href={cert.link} target="_blank" rel="noopener noreferrer">{inner}</a> : inner;
+          })}
+        </div>
+      </section>
+
+    </div>
   );
 };
 
