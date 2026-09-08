@@ -1,118 +1,302 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 
+const techPills = [
+  { label: 'Python', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg' },
+  { label: 'LLMs', emoji: '🧠' },
+  { label: 'RAG', emoji: '🗃️' },
+  { label: 'Agents', emoji: '🤖' },
+  { label: 'MCP', emoji: '🔗' },
+  { label: 'AWS', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg' },
+  { label: 'Claude Code', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
+  { label: 'OpenAI Agents', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/openai.svg' },
+  { label: 'LangChain', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/langchain.svg' },
+  { label: 'Claude Agents SDK', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
+];
+
 const About = () => {
+  const [showEarlier, setShowEarlier] = useState(false);
+
   return (
-    <div className="max-w-5xl mx-auto space-y-24 py-12">
+    <div className="space-y-0 pb-16">
 
-      {/* 1. Hero / Intro Split */}
-      <section className="flex flex-col md:flex-row gap-12 items-center md:items-start">
+      {/* ─── 1. HERO SPLIT CARD ─── */}
+      <section className="max-w-6xl mx-auto px-4 pb-16">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="w-full md:w-1/3 shrink-0"
-        >
-          <div className="aspect-square rounded-3xl overflow-hidden border border-border bg-surface shadow-sm">
-            <img src="/images/profile.jpg" alt="Harsh Dadiya" className="w-full h-full object-cover" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="w-full md:w-2/3 space-y-6"
+          transition={{ duration: 0.5 }}
+          className="flex flex-col md:flex-row gap-10 lg:gap-16 items-center"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-textPrimary tracking-tight">About Me</h1>
-          <p className="text-lg text-textSecondary leading-relaxed">
-            I am an AI Engineer with 1.5+ years of experience shipping production LLM systems in Python. I specialize in real-time voice agents, MCP servers, multi-agent workflows, and RAG pipelines running on FastAPI, PostgreSQL, and AWS.
-          </p>
-          <p className="text-lg text-textSecondary leading-relaxed">
-            I own features end to end, from architectural design through deployment and production debugging. Outside of work, I actively contribute to the open-source AI ecosystem, including a notable contribution to OpenMontage (50k+ stars).
-          </p>
+          {/* Left: Photo Container */}
+          <div className="relative w-full md:w-[40%] rounded-[2rem] overflow-hidden shadow-2xl shrink-0 border border-border">
+            {/* Full-bleed image */}
+            <img
+              src="/images/profile.jpg"
+              alt="Harsh Dadiya"
+              className="w-full aspect-[4/5] object-cover"
+            />
 
-          <div className="flex flex-wrap gap-4 pt-4">
-            <div className="bg-surface border border-border rounded-xl px-4 py-3 flex flex-col">
-              <span className="text-2xl font-bold text-accent">1.5+</span>
-              <span className="text-xs font-bold text-textSecondary uppercase tracking-wider">Years Exp</span>
+            {/* Dark gradient scrim at bottom for text readability */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+
+            {/* Open to Opportunities badge */}
+            <div className="absolute top-5 left-5 flex items-center gap-2 bg-black/50 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-sm z-10">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-white/95 text-xs font-semibold">Open to Opportunities</span>
             </div>
-            <div className="bg-surface border border-border rounded-xl px-4 py-3 flex flex-col">
-              <span className="text-2xl font-bold text-accent">500+</span>
-              <span className="text-xs font-bold text-textSecondary uppercase tracking-wider">Indexed Docs</span>
+
+            {/* Handwritten note — on the image bottom-left */}
+            <div className="absolute bottom-6 left-6 z-10 rotate-[-4deg]">
+              <span style={{ fontFamily: 'Caveat, cursive' }} className="text-white text-2xl leading-[1.1] drop-shadow-md">
+                Build<br />Ship<br />Learn<br />Repeat
+              </span>
+              <div className="mt-1.5 w-16 h-[2px] bg-white/50 rounded-full" />
+            </div>
+          </div>
+
+          {/* Right: Intro Text */}
+          <div className="w-full md:w-[60%] flex flex-col justify-center space-y-5">
+            <div>
+              <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-2">About Me</p>
+              <h1 className="text-4xl lg:text-5xl font-extrabold text-textPrimary tracking-tight leading-tight">
+                I'm Harsh Dadiya
+              </h1>
+            </div>
+
+            <p className="text-[17px] font-semibold text-textPrimary/90 leading-snug">
+              An AI Engineer focused on shipping production LLM systems in Python and contributing to open source like OpenMontage.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              I'm an AI Engineer with 1.5+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I'm also an active open source contributor, with contributions to OpenMontage (50K+ stars), and I love exploring new technologies like MCP, RAG, and multi-agent systems.
+            </p>
+            <p className="text-[15px] text-textSecondary leading-relaxed">
+              When I'm not building, you'll find me writing about AI, learning something new, or tinkering with side projects.
+            </p>
+
+            {/* Tech pills */}
+            <div className="flex flex-wrap gap-2.5 pt-2">
+              {techPills.map(({ label, emoji, iconUrl }) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-surface border border-border rounded-full text-sm font-semibold text-textPrimary hover:border-accent/60 transition-colors shadow-sm"
+                >
+                  {iconUrl ? (
+                    <img src={iconUrl} alt={label} className="w-4 h-4 dark:invert opacity-80" />
+                  ) : (
+                    <span>{emoji}</span>
+                  )}
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
         </motion.div>
       </section>
 
-      <hr className="border-border" />
-
-      {/* 2. Experience Timeline */}
-      <section>
-        <h2 className="text-3xl font-bold text-textPrimary mb-8">Professional Journey</h2>
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border/50 before:to-transparent">
-
-          {/* Role 1 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-page bg-accent text-page shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-surface border border-border p-6 rounded-2xl shadow-sm hover:border-accent transition-colors">
-              <div className="flex flex-col mb-3">
-                <span className="text-accent font-semibold text-sm mb-1">June 2025 – Present</span>
-                <h3 className="text-xl font-bold text-textPrimary">Associate AI Engineer</h3>
-                <p className="text-textSecondary text-sm">Wappnet Systems Pvt. Ltd. | Gujarat, India</p>
-              </div>
-              <ul className="text-sm text-textSecondary space-y-2 list-disc list-inside">
-                <li>Built a generative long-form video pipeline (up to 45 mins) in active production for YouTube.</li>
-                <li>Built a real-time voice agent using OpenAI Realtime API, streaming bidirectional audio over fastAPI websockets.</li>
-                <li>Developed MCP servers exposing internal business systems as agent-callable tools.</li>
-                <li>Shipped multi-agent workflows for automated research and reporting.</li>
-                <li>Built RAG pipelines scaling to 500+ enterprise documents using Qdrant.</li>
-              </ul>
-            </div>
+      {/* ─── 2. PROFESSIONAL JOURNEY (responsive theme) ─── */}
+      <section className="bg-surface border-y border-border py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Section header */}
+          <div className="text-center mb-8">
+            <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-xs mb-2">My Journey</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-textPrimary tracking-tight">Professional Journey</h2>
+            <p className="text-textSecondary text-sm font-medium mt-2 max-w-lg mx-auto">
+              A timeline of my professional experience and growth in the AI/ML space.
+            </p>
           </div>
 
-          {/* Role 2 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group text-textSecondary">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-page bg-border text-textSecondary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow"></div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-elevated border border-border/50 p-6 rounded-2xl">
-              <div className="flex flex-col mb-3">
-                <span className="font-semibold text-sm mb-1">January 2025 – June 2025</span>
-                <h3 className="text-xl font-bold text-textPrimary">AI/ML Intern</h3>
-                <p className="text-textSecondary text-sm">Wappnet Systems Pvt. Ltd.</p>
-              </div>
-              <ul className="text-sm space-y-2 list-disc list-inside">
-                <li>Built an enterprise recommendation system in Python.</li>
-                <li>Deployed applications on OCI with Oracle Database.</li>
-                <li>Promoted to full-time Associate AI Engineer after successful execution of internships deliverables.</li>
-              </ul>
-            </div>
-          </div>
+          {/* Timeline */}
+          <div className="relative">
+            {/* Central vertical line */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
 
-          {/* Role 3 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group text-textSecondary">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-page bg-border text-textSecondary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow"></div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-elevated border border-border/50 p-6 rounded-2xl">
-              <div className="flex flex-col mb-3">
-                <span className="font-semibold text-sm mb-1">June 2024 - July 2024</span>
-                <h3 className="text-xl font-bold text-textPrimary">Data Science & ML Intern</h3>
-                <p className="text-textSecondary text-sm">BrainyBeam Info-Tech</p>
+            {/* Present dot at top */}
+            <div className="relative flex justify-center mb-2 z-10">
+              <span className="bg-accent text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-lg shadow-accent/30">Present</span>
+            </div>
+
+            {/* Role 1 — left card, current */}
+            <div className="relative grid grid-cols-2 gap-0 mb-6">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="pr-8 flex justify-end"
+              >
+                <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-textSecondary text-xs font-semibold">Aug 2024 – Present</span>
+                    <span className="bg-accent/20 text-accent text-xs font-bold px-2 py-0.5 rounded-full">Current</span>
+                  </div>
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Associate AI Engineer</h3>
+                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <circle cx="50" cy="50" r="50" fill="#313645" />
+                        <line x1="24" y1="30" x2="34" y2="64" stroke="#F39C12" strokeWidth="8.5" strokeLinecap="round" />
+                        <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    </div>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                  </a>
+                  <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                    <li>• Building and shipping production-grade AI features and tools.</li>
+                    <li>• Working on generative long-form video pipelines using LLMs, Remotion and AWS.</li>
+                    <li>• Integrated OpenAI Realtime API for voice agents and conversational AI systems.</li>
+                    <li>• Developing RAG pipelines and multi-agent workflows for business applications.</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-1">
+                    {['Python', 'FastAPI', 'AWS', 'OpenAI', 'RAG', 'Agents'].map(t => (
+                      <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Center dot */}
+              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-accent border-4 border-surface z-10 shadow-lg shadow-accent/40" />
+
+              <div className="pl-8" /> {/* Empty right side for this row */}
+            </div>
+
+            {/* Role 2 — right card */}
+            <div className="relative grid grid-cols-2 gap-0 mb-6">
+              <div className="pr-8" /> {/* Empty left side for this row */}
+
+              {/* Center dot */}
+              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="pl-8 flex justify-start"
+              >
+                <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                  <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2024 – Aug 2024</span>
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">AI/ML Intern</h3>
+                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <circle cx="50" cy="50" r="50" fill="#313645" />
+                        <line x1="24" y1="30" x2="34" y2="64" stroke="#F39C12" strokeWidth="8.5" strokeLinecap="round" />
+                        <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    </div>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                  </a>
+                  <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                    <li>• Worked on internal AI tools and automation systems.</li>
+                    <li>• Built and evaluated RAG pipelines for document understanding.</li>
+                    <li>• Contributed to generative video workflows and data processing tools.</li>
+                    <li>• Explored OpenAI APIs and multimodal AI capabilities.</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Python', 'LangChain', 'OpenAI', 'RAG', 'Computer Vision'].map(t => (
+                      <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Earlier Roles (Toggleable) */}
+            <AnimatePresence>
+              {showEarlier && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  {/* Role 3 — left card */}
+                  <div className="relative grid grid-cols-2 gap-0 mb-6 mt-6">
+                    <motion.div
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="pr-8 flex justify-end"
+                    >
+                      <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
+                        <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
+                        <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Data Science & ML Intern</h3>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-background">B</div>
+                          <span className="text-textSecondary text-sm font-semibold">BrainyBeam Info-Tech</span>
+                        </div>
+                        <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
+                          <li>• Developed an intelligent AQI monitoring system.</li>
+                          <li>• Analyzed PM2.5, PM10, and NO2 parameters using Pandas and scikit-learn.</li>
+                        </ul>
+                        <div className="flex flex-wrap gap-1">
+                          {['Python', 'Pandas', 'scikit-learn'].map(t => (
+                            <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Center dot */}
+                    <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+
+                    <div className="pl-8" /> {/* Empty right side */}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Bottom Row: Quote (Left) & Earlier Toggle (Center) */}
+            <div className="relative grid grid-cols-2 gap-0 pt-0">
+              {/* Left Side: Quote Block */}
+              <div className="pr-8 flex flex-col justify-end">
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="max-w-sm ml-auto text-left"
+                >
+                  <span className="text-accent text-3xl font-extrabold leading-none block mb-1">"</span>
+                  <p style={{ fontFamily: 'Caveat, cursive' }} className="text-textSecondary text-xl leading-snug">
+                    Consistency beats intensity.<br />
+                    Ship small, learn fast, keep building."
+                  </p>
+                  <p className="text-textSecondary opacity-60 text-xs font-semibold mt-3">— Harsh Dadiya</p>
+                </motion.div>
               </div>
-              <ul className="text-sm space-y-2 list-disc list-inside">
-                <li>Developed an intelligent AQI monitoring system.</li>
-                <li>Analyzed PM2.5, PM10, and NO2 parameters using Pandas and scikit-learn.</li>
-              </ul>
+
+              {/* Center Dot & Right Side Empty */}
+              <div className="relative pl-8 flex flex-col justify-end">
+                {/* Earlier Toggle Button replacing the line's end */}
+                <div className="absolute left-0 top-auto bottom-0 -translate-x-1/2 translate-y-1/2 flex justify-center z-10 w-full sm:w-auto">
+                  <button
+                    onClick={() => setShowEarlier(!showEarlier)}
+                    className="group flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 bg-surface p-1 outline-none"
+                  >
+                    <div className={`w-3.5 h-3.5 rounded-full border-4 border-surface transition-colors ${showEarlier ? 'bg-accent' : 'bg-border group-hover:bg-accent'}`} />
+                    <span className={`text-sm font-semibold transition-colors ${showEarlier ? 'text-textPrimary' : 'text-textSecondary group-hover:text-textPrimary'}`}>
+                      {showEarlier ? 'Hide Earlier' : 'Earlier'}
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <hr className="border-border" />
-
-      {/* 3. Skills */}
-      <section>
-        <h2 className="text-3xl font-bold text-textPrimary mb-8">Technical Radar</h2>
+      {/* ─── 3. SKILLS ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-20">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Technical Radar</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Skills & Stack</h2>
+        </div>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-surface border border-border p-6 rounded-2xl">
             <h3 className="text-lg font-bold text-textPrimary mb-4">AI & Machine Learning</h3>
@@ -133,53 +317,38 @@ const About = () => {
         </div>
       </section>
 
-      {/* 4. Education */}
-      <section>
-        <h2 className="text-3xl font-bold text-textPrimary mb-8">Education</h2>
+      {/* ─── 4. EDUCATION ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-16">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Academic Background</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Education</h2>
+        </div>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-surface border border-border p-6 rounded-2xl">
-            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2021 - 2025</p>
+            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2021 – 2025</p>
             <h3 className="text-lg font-bold text-textPrimary mb-2">Bachelor of Engineering (IT)</h3>
             <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
           </div>
           <div className="bg-surface border border-border p-6 rounded-2xl">
-            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2022 - 2024</p>
+            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2022 – 2024</p>
             <h3 className="text-lg font-bold text-textPrimary mb-2">Minor Degree (IoT)</h3>
             <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
           </div>
         </div>
       </section>
 
-      {/* 5. Certifications & Recognition */}
-      <section>
-        <h2 className="text-3xl font-bold text-textPrimary mb-8">Certifications & Recognition</h2>
+      {/* ─── 5. CERTIFICATIONS ─── */}
+      <section className="max-w-6xl mx-auto px-4 pt-16 pb-8">
+        <div className="mb-10">
+          <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-3">Recognition</p>
+          <h2 className="text-3xl font-extrabold text-textPrimary">Certifications & Recognition</h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            {
-              icon: <AcademicCapIcon className="w-5 h-5" />,
-              title: 'Machine Learning Specialization',
-              issuer: 'DeepLearning.AI & Coursera',
-              date: '2024',
-              link: 'https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S',
-            },
-            {
-              icon: <SparklesIcon className="w-5 h-5" />,
-              title: 'Code Unnati Innovation Marathon',
-              issuer: 'SAP India & Edunet Foundation',
-              date: '2024',
-            },
-            {
-              icon: <TrophyIcon className="w-5 h-5" />,
-              title: 'SSIP Hackathon Participant',
-              issuer: 'Gujarat State Innovation Program',
-              date: '2023–2024',
-            },
-            {
-              icon: <CodeBracketIcon className="w-5 h-5" />,
-              title: 'HackerRank Certified',
-              issuer: 'Python & Data Structures',
-              date: '2023',
-            },
+            { icon: <AcademicCapIcon className="w-5 h-5" />, title: 'Machine Learning Specialization', issuer: 'DeepLearning.AI & Coursera', date: '2024', link: 'https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S' },
+            { icon: <SparklesIcon className="w-5 h-5" />, title: 'Code Unnati Innovation Marathon', issuer: 'SAP India & Edunet Foundation', date: '2024' },
+            { icon: <TrophyIcon className="w-5 h-5" />, title: 'SSIP Hackathon Participant', issuer: 'Gujarat State Innovation Program', date: '2023–2024' },
+            { icon: <CodeBracketIcon className="w-5 h-5" />, title: 'HackerRank Certified', issuer: 'Python & Data Structures', date: '2023' },
           ].map((cert, i) => {
             const inner = (
               <motion.div
@@ -198,9 +367,7 @@ const About = () => {
                 </div>
               </motion.div>
             );
-            return cert.link ? (
-              <a key={i} href={cert.link} target="_blank" rel="noopener noreferrer">{inner}</a>
-            ) : inner;
+            return cert.link ? <a key={i} href={cert.link} target="_blank" rel="noopener noreferrer">{inner}</a> : inner;
           })}
         </div>
       </section>

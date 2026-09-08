@@ -22,41 +22,45 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
   return (
     <nav className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-colors duration-300">
       <div className="container py-4">
-        <div className="flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold tracking-tight text-textPrimary hover:text-accent transition-colors">
+        <div className="flex justify-between items-center relative">
+          <Link to="/" className="text-xl font-bold tracking-tight text-textPrimary hover:text-accent transition-colors z-10">
             Harsh Dadiya
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-1 items-center">
+          {/* Desktop Menu - Absolute Centered */}
+          <div className="hidden md:flex items-center absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${isActive
-                    ? 'text-accent bg-accent/10'
-                    : 'text-textSecondary hover:text-textPrimary hover:bg-elevated'
+                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 relative ${isActive
+                    ? 'text-accent'
+                    : 'text-textSecondary hover:text-textPrimary hover:bg-elevated/50 rounded-full'
                     }`}
                 >
                   {link.name}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-accent rounded-t-full" />
+                  )}
                 </Link>
               );
             })}
+          </div>
 
-            <div className="w-px h-5 bg-border mx-2"></div>
-
+          {/* Right Action Items */}
+          <div className="hidden md:flex items-center space-x-3 z-10">
             <Link
               to="/resume"
-              className="px-5 py-2 bg-accent text-white rounded-full hover:bg-accentHover transition-colors text-sm font-medium ml-2 shadow-sm"
+              className="px-5 py-2.5 bg-accent text-white rounded-xl hover:bg-accentHover transition-colors text-sm font-bold flex items-center shadow-sm"
             >
               Resume
             </Link>
 
             <button
               onClick={toggleTheme}
-              className="p-2 ml-4 rounded-full text-textSecondary hover:bg-elevated hover:text-textPrimary transition-colors flex items-center justify-center"
+              className="p-2.5 rounded-xl bg-elevated border border-border text-textSecondary hover:text-textPrimary transition-colors flex items-center justify-center shadow-sm"
               aria-label="Toggle theme"
             >
               {currentTheme === 'dark' ? (

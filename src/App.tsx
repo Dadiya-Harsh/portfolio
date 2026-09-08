@@ -36,7 +36,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-page text-textPrimary antialiased transition-colors duration-300 flex flex-col">
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
-        <main className="container mx-auto px-4 pt-28 pb-12 flex-grow flex flex-col">
+        <main className="container mx-auto px-4 pt-4 md:pt-6 pb-12 flex-grow flex flex-col">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
