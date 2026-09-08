@@ -15,7 +15,6 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
     { name: 'About', path: '/about' },
     { name: 'Projects', path: '/projects' },
     { name: 'Case Studies', path: '/case-studies' },
-    { name: 'Achievements', path: '/achievements' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];

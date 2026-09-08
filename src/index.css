@@ -44,3 +44,9 @@
     @apply max-w-6xl mx-auto px-6 lg:px-8;
   }
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}

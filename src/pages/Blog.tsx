@@ -20,7 +20,15 @@ const Blog = () => {
         const response = await fetch('/api/medium');
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
-        setArticles(data.articles);
+        // Deduplicate by title to prevent cross-posted articles showing twice
+        const seen = new Set<string>();
+        const unique = (data.articles as Article[]).filter((a) => {
+          const key = cleanText(a.title).toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        setArticles(unique);
       } catch (err) {
         console.error('Error fetching Medium articles:', err);
         setError(true);
@@ -113,18 +121,16 @@ const Blog = () => {
       {loading ? (
         <div className="space-y-6">
           {[1, 2, 3].map((i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-surface border border-border p-8 rounded-2xl h-48 animate-pulse"
+              className="bg-surface border border-border p-8 rounded-2xl h-48 overflow-hidden relative"
             >
-              <div className="h-4 bg-border rounded w-1/4 mb-4"></div>
-              <div className="h-6 bg-border rounded w-3/4 mb-6"></div>
-              <div className="h-4 bg-border rounded w-full mb-3"></div>
-              <div className="h-4 bg-border rounded w-5/6"></div>
-            </motion.div>
+              <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <div className="h-3 bg-elevated rounded-full w-1/5 mb-5" />
+              <div className="h-6 bg-elevated rounded-full w-3/4 mb-6" />
+              <div className="h-3 bg-elevated rounded-full w-full mb-3" />
+              <div className="h-3 bg-elevated rounded-full w-5/6" />
+            </div>
           ))}
         </div>
       ) : error ? (

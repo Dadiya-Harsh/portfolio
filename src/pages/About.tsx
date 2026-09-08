@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 
 const About = () => {
   return (
@@ -139,15 +140,68 @@ const About = () => {
           <div className="bg-surface border border-border p-6 rounded-2xl">
             <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2021 - 2025</p>
             <h3 className="text-lg font-bold text-textPrimary mb-2">Bachelor of Engineering (IT)</h3>
-            <p className="text-textSecondary text-sm mb-4">A D Patel Institute of Technology</p>
-            <div className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-accent font-bold rounded-lg text-sm">CGPA: 8.14</div>
+            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
           </div>
           <div className="bg-surface border border-border p-6 rounded-2xl">
             <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2022 - 2024</p>
             <h3 className="text-lg font-bold text-textPrimary mb-2">Minor Degree (IoT)</h3>
-            <p className="text-textSecondary text-sm mb-4">A D Patel Institute of Technology</p>
-            <div className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-accent font-bold rounded-lg text-sm">CGPA: 7.56</div>
+            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
           </div>
+        </div>
+      </section>
+
+      {/* 5. Certifications & Recognition */}
+      <section>
+        <h2 className="text-3xl font-bold text-textPrimary mb-8">Certifications & Recognition</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            {
+              icon: <AcademicCapIcon className="w-5 h-5" />,
+              title: 'Machine Learning Specialization',
+              issuer: 'DeepLearning.AI & Coursera',
+              date: '2024',
+              link: 'https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S',
+            },
+            {
+              icon: <SparklesIcon className="w-5 h-5" />,
+              title: 'Code Unnati Innovation Marathon',
+              issuer: 'SAP India & Edunet Foundation',
+              date: '2024',
+            },
+            {
+              icon: <TrophyIcon className="w-5 h-5" />,
+              title: 'SSIP Hackathon Participant',
+              issuer: 'Gujarat State Innovation Program',
+              date: '2023–2024',
+            },
+            {
+              icon: <CodeBracketIcon className="w-5 h-5" />,
+              title: 'HackerRank Certified',
+              issuer: 'Python & Data Structures',
+              date: '2023',
+            },
+          ].map((cert, i) => {
+            const inner = (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-surface border border-border p-5 rounded-2xl flex items-start gap-4 hover:border-accent transition-colors"
+              >
+                <div className="p-2 bg-accent/10 text-accent rounded-xl shrink-0">{cert.icon}</div>
+                <div>
+                  <p className="font-bold text-textPrimary text-sm">{cert.title}</p>
+                  <p className="text-textSecondary text-xs mt-0.5">{cert.issuer}</p>
+                  <p className="text-textSecondary text-xs mt-0.5 opacity-60">{cert.date}</p>
+                </div>
+              </motion.div>
+            );
+            return cert.link ? (
+              <a key={i} href={cert.link} target="_blank" rel="noopener noreferrer">{inner}</a>
+            ) : inner;
+          })}
         </div>
       </section>
 
