@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import {
   MicrophoneIcon,
   ServerStackIcon,
@@ -8,9 +9,66 @@ import {
   CloudIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
-  CheckCircleIcon,
-  DocumentTextIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
+
+// Count-up hook: animates a number from 0 to `end` when `trigger` is true
+const useCountUp = (end: number, duration: number = 1.5, trigger: boolean = false) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!trigger) return;
+    let startTime: number | null = null;
+    let rafId: number;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      // Ease-out cubic for a smooth deceleration feel
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * end));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        setCount(end);
+      }
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [end, duration, trigger]);
+
+  return count;
+};
+
+// Individual stat card component with count-up
+const StatCard = ({ value, suffix, label, sub, delay }: {
+  value: number;
+  suffix: string;
+  label: string;
+  sub: string;
+  delay: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const count = useCountUp(value, 1.8, isInView);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: delay }}
+      className="text-center px-4 md:px-8 w-full"
+    >
+      <div className="text-3xl lg:text-4xl font-extrabold text-accent mb-2 tracking-tight">
+        {count}{suffix} <span className="text-xl lg:text-2xl font-bold text-textPrimary">{label}</span>
+      </div>
+      <div className="text-textSecondary text-sm font-medium">{sub}</div>
+    </motion.div>
+  );
+};
 
 const Home = () => {
   return (
@@ -38,47 +96,50 @@ const Home = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <p className="text-accent font-bold mb-4 relative inline-block">
+            <div className="inline-flex items-center border border-accent/30 bg-accent/5 text-accent px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-6">
               Hi, I'm Harsh Dadiya
-              <span className="absolute -bottom-2 left-0 right-0 h-[3px] bg-accent rounded-full opacity-60" />
-            </p>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-textPrimary leading-[1.15] tracking-tight mb-4">
-              I ship production AI systems — <span className="text-textSecondary/90">voice agents, RAG pipelines, and MCP servers.</span>
-            </h1>
+            </div>
           </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-4xl lg:text-5xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
+          >
+            I ship production AI systems.
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl text-textSecondary font-medium"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-xl text-textSecondary font-medium leading-relaxed max-w-xl"
           >
-            1.5+ years · FastAPI + PostgreSQL + AWS
+            Turning complex ideas into reliable, scalable AI solutions that create real value.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4 relative z-20"
           >
             <Link
-              to="/projects"
+              to="/contact"
               className="w-full sm:w-auto bg-accent text-white px-8 py-3.5 rounded-xl hover:bg-accentHover hover:shadow-lg active:scale-95 transition-all font-bold flex items-center justify-center gap-2 group"
             >
-              View Projects
+              Let's Talk
               <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              to="/resume"
+              to="/projects"
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-textPrimary hover:bg-elevated transition-colors font-bold border-2 border-border flex items-center justify-center gap-2"
             >
-              <DocumentTextIcon className="w-5 h-5 text-accent" />
-              Download Resume
+              View Projects
             </Link>
           </motion.div>
         </div>
@@ -88,24 +149,10 @@ const Home = () => {
       <section className="border-y border-border bg-page py-12 lg:py-16">
         <div className="container max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 md:divide-x divide-border">
-            {[
-              { number: '1.5+ Years', sub: 'Production AI' },
-              { number: '500+ Docs', sub: 'RAG-Indexed' },
-              { number: '50K+ Stars', sub: 'OSS Merge' },
-              { number: '3 Systems', sub: 'In Prod' },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="text-center px-4 md:px-8 w-full"
-              >
-                <div className="text-3xl lg:text-4xl font-extrabold text-accent mb-2 tracking-tight">{stat.number}</div>
-                <div className="text-textSecondary text-sm font-medium">{stat.sub}</div>
-              </motion.div>
-            ))}
+            <StatCard value={1} suffix=".5+" label="Years" sub="Experience" delay={0} />
+            <StatCard value={50} suffix="K+" label="Stars" sub="OSS Merge" delay={0.1} />
+            <StatCard value={500} suffix="+" label="Documents" sub="RAG-Indexed" delay={0.2} />
+            <StatCard value={15} suffix="+" label="Systems" sub="Shipped to Prod" delay={0.3} />
           </div>
         </div>
       </section>
