@@ -11,7 +11,7 @@ const techPills = [
   { label: 'AWS', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg' },
   { label: 'Claude Code', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
   { label: 'OpenAI Agents', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/openai.svg' },
-  { label: 'LangChain', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/langchain.svg' },
+  { label: 'LangChain', iconUrl: 'https://pnglogo.sgp1.digitaloceanspaces.com/simple-icons/langchain-dark.svg' },
   { label: 'Claude Agents SDK', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
 ];
 
@@ -113,21 +113,21 @@ const About = () => {
           {/* Timeline */}
           <div className="relative">
             {/* Central vertical line */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
+            <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
 
             {/* Present dot at top */}
-            <div className="relative flex justify-center mb-2 z-10">
+            <div className="relative flex justify-start md:justify-center mb-2 z-10 pl-[8px] md:pl-0">
               <span className="bg-accent text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-lg shadow-accent/30">Present</span>
             </div>
 
             {/* Role 1 — left card, current */}
-            <div className="relative grid grid-cols-2 gap-0 mb-6">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0 mb-6">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="pr-8 flex justify-end"
+                className="pl-[44px] md:pl-0 pr-4 md:pr-8 flex justify-start md:justify-end"
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
                   <div className="flex items-center justify-between mb-2">
@@ -160,24 +160,24 @@ const About = () => {
               </motion.div>
 
               {/* Center dot */}
-              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-accent border-4 border-surface z-10 shadow-lg shadow-accent/40" />
+              <div className="absolute left-[20px] md:left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-accent border-4 border-surface z-10 shadow-lg shadow-accent/40" />
 
-              <div className="pl-8" /> {/* Empty right side for this row */}
+              <div className="hidden md:block pl-8" /> {/* Empty right side for this row */}
             </div>
 
             {/* Role 2 — right card */}
-            <div className="relative grid grid-cols-2 gap-0 mb-6">
-              <div className="pr-8" /> {/* Empty left side for this row */}
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0 mb-6">
+              <div className="hidden md:block pr-8" /> {/* Empty left side for this row */}
 
               {/* Center dot */}
-              <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+              <div className="absolute left-[20px] md:left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
 
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="pl-8 flex justify-start"
+                className="pl-[44px] md:pl-8 pr-4 md:pr-0 flex justify-start"
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
                   <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2024 – Aug 2024</span>
@@ -217,12 +217,12 @@ const About = () => {
                   className="overflow-hidden"
                 >
                   {/* Role 3 — left card */}
-                  <div className="relative grid grid-cols-2 gap-0 mb-6 mt-6">
+                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0 mb-6 mt-6">
                     <motion.div
                       initial={{ opacity: 0, x: -30 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="pr-8 flex justify-end"
+                      className="pl-[44px] md:pl-0 pr-4 md:pr-8 flex justify-start md:justify-end"
                     >
                       <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
                         <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
@@ -244,23 +244,23 @@ const About = () => {
                     </motion.div>
 
                     {/* Center dot */}
-                    <div className="absolute left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
+                    <div className="absolute left-[20px] md:left-1/2 top-5 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-border border-4 border-surface z-10" />
 
-                    <div className="pl-8" /> {/* Empty right side */}
+                    <div className="hidden md:block pl-8" /> {/* Empty right side */}
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
             {/* Bottom Row: Quote (Left) & Earlier Toggle (Center) */}
-            <div className="relative grid grid-cols-2 gap-0 pt-0">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0 pt-0 pb-8 md:pb-0">
               {/* Left Side: Quote Block */}
-              <div className="pr-8 flex flex-col justify-end">
+              <div className="pl-[44px] md:pl-0 pr-4 md:pr-8 flex flex-col justify-start md:justify-end">
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="max-w-sm ml-auto text-left"
+                  className="max-w-sm ml-0 md:ml-auto text-left"
                 >
                   <span className="text-accent text-3xl font-extrabold leading-none block mb-1">"</span>
                   <p style={{ fontFamily: 'Caveat, cursive' }} className="text-textSecondary text-xl leading-snug">
@@ -272,9 +272,9 @@ const About = () => {
               </div>
 
               {/* Center Dot & Right Side Empty */}
-              <div className="relative pl-8 flex flex-col justify-end">
+              <div className="relative pl-[44px] md:pl-8 flex flex-col justify-end mt-12 md:mt-0">
                 {/* Earlier Toggle Button replacing the line's end */}
-                <div className="absolute left-0 top-auto bottom-0 -translate-x-1/2 translate-y-1/2 flex justify-center z-10 w-full sm:w-auto">
+                <div className="absolute left-[20px] md:left-0 top-auto bottom-0 md:-translate-x-1/2 translate-y-1/2 flex justify-start md:justify-center z-10 w-full sm:w-auto -translate-x-[18px]">
                   <button
                     onClick={() => setShowEarlier(!showEarlier)}
                     className="group flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 bg-surface p-1 outline-none"
