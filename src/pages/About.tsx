@@ -131,7 +131,7 @@ const About = () => {
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-textSecondary text-xs font-semibold">Aug 2024 – Present</span>
+                    <span className="text-textSecondary text-xs font-semibold">July 2025 – Present</span>
                     <span className="bg-accent/20 text-accent text-xs font-bold px-2 py-0.5 rounded-full">Current</span>
                   </div>
                   <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Associate AI Engineer</h3>
@@ -180,7 +180,7 @@ const About = () => {
                 className="pl-[44px] md:pl-8 pr-4 md:pr-0 flex justify-start"
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
-                  <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2024 – Aug 2024</span>
+                  <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2025 – JulY 2025</span>
                   <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">AI/ML Intern</h3>
                   <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
                     <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
