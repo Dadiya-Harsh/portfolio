@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import { loadCaseStudyRegistry } from '../utils/caseStudyLoader';
+import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import {
   MicrophoneIcon,
   ServerStackIcon,
@@ -71,6 +73,14 @@ const StatCard = ({ value, suffix, label, sub, delay }: {
 };
 
 const Home = () => {
+  const [caseStudies, setCaseStudies] = useState<CaseStudyMeta[]>([]);
+
+  useEffect(() => {
+    loadCaseStudyRegistry()
+      .then(data => setCaseStudies(data.slice(0, 2)))
+      .catch(() => setCaseStudies([]));
+  }, []);
+
   return (
     <div className="space-y-16 pt-4 pb-12">
       {/* 1. Hero Section */}
@@ -216,63 +226,35 @@ const Home = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface p-8 md:p-10 rounded-3xl border-2 border-border block flex flex-col h-full"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="px-3 py-1 bg-accent/10 text-accent font-bold text-xs uppercase tracking-widest rounded-lg">Production</span>
-              <span className="px-3 py-1 bg-elevated text-textSecondary font-bold text-xs uppercase tracking-widest rounded-lg">Voice AI</span>
-            </div>
-            <h3 className="text-2xl font-bold text-textPrimary mb-4">Real-Time Voice Agent Pipeline</h3>
-            <p className="text-textSecondary leading-relaxed mb-6 flex-grow">
-              Architected and deployed a production-grade voice agent serving scalable, low-latency conversational AI. Replaced traditional turn-based constraints with uninterrupted, bidirectional streaming architectures.
-            </p>
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
-                <CheckCircleIcon className="w-5 h-5 text-accent shrink-0" />
-                <div>Integrated OpenAI Realtime API over FastAPI WebSockets</div>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
-                <CheckCircleIcon className="w-5 h-5 text-accent shrink-0" />
-                <div>Managed bi-directional ultra-low latency audio streams</div>
-              </li>
-            </ul>
-            <Link to="/case-studies/voice-agent" className="inline-flex font-bold text-textPrimary hover:text-accent group transition-colors mt-auto self-start">
-              Read Full Case Study <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform inline self-center" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface p-8 md:p-10 rounded-3xl border-2 border-border block flex flex-col h-full"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="px-3 py-1 bg-accent/10 text-accent font-bold text-xs uppercase tracking-widest rounded-lg">Production</span>
-              <span className="px-3 py-1 bg-elevated text-textSecondary font-bold text-xs uppercase tracking-widest rounded-lg">Enterprise RAG</span>
-            </div>
-            <h3 className="text-2xl font-bold text-textPrimary mb-4">Scalable Multi-Agent Workflows</h3>
-            <p className="text-textSecondary leading-relaxed mb-6 flex-grow">
-              Engineered highly reliable ingestion and retrieval pipelines for massive enterprise repositories utilizing distributed intelligence and external data binding.
-            </p>
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
-                <CheckCircleIcon className="w-5 h-5 text-accent shrink-0" />
-                <div>RAG pipelines scaling to 500+ enterprise documents using Qdrant</div>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
-                <CheckCircleIcon className="w-5 h-5 text-accent shrink-0" />
-                <div>Developed custom MCP servers to expose internal business intelligence</div>
-              </li>
-            </ul>
-            <Link to="/case-studies/enterprise-rag" className="inline-flex font-bold text-textPrimary hover:text-accent group transition-colors mt-auto self-start">
-              Read Full Case Study <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform inline self-center" />
-            </Link>
-          </motion.div>
+          {caseStudies.map((study, index) => (
+            <motion.div
+              key={study.id}
+              initial={{ opacity: 0, x: index === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-surface p-8 md:p-10 rounded-3xl border-2 border-border block flex flex-col h-full"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <span className="px-3 py-1 bg-accent/10 text-accent font-bold text-xs uppercase tracking-widest rounded-lg">Production</span>
+                <span className="px-3 py-1 bg-elevated text-textSecondary font-bold text-xs uppercase tracking-widest rounded-lg">{study.type}</span>
+              </div>
+              <h3 className="text-2xl font-bold text-textPrimary mb-4">{study.title}</h3>
+              <p className="text-textSecondary leading-relaxed mb-6 flex-grow">
+                {study.desc}
+              </p>
+              <ul className="space-y-3 mb-8">
+                {study.bullets.map((bullet, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
+                    <CheckCircleIcon className="w-5 h-5 text-accent shrink-0" />
+                    <div>{bullet}</div>
+                  </li>
+                ))}
+              </ul>
+              <Link to={`/case-studies/${study.id}`} className="inline-flex font-bold text-textPrimary hover:text-accent group transition-colors mt-auto self-start">
+                Read Full Case Study <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform inline self-center" />
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
         <div className="text-center mt-12">

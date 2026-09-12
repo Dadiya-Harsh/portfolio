@@ -1,0 +1,43 @@
+[
+    {
+        "id": "voice-agent",
+        "type": "Voice AI",
+        "title": "Voice Agent Pipeline",
+        "subtitle": "AI-Driven Conversation Orchestration",
+        "heroImage": "/images/voice-agent-hero.png",
+        "techStack": "Python, OpenAI API, Twilio, Redis, Docker",
+        "timeline": "Oct 2023 - Jan 2024",
+        "desc": "Architected and deployed a production-grade voice agent serving scalable, low-latency conversational AI. Replaced traditional turn-based constraints with uninterrupted, bidirectional streaming architectures.",
+        "bullets": [
+            "Integrated OpenAI Realtime API over FastAPI WebSockets",
+            "Managed bi-directional ultra-low latency audio streams"
+        ],
+        "status": "published"
+    },
+    {
+        "id": "generative-video",
+        "type": "Video AI",
+        "title": "Generative Video Pipelines",
+        "subtitle": "Autonomous Multi-Agent Film Production",
+        "heroImage": "/images/video-gen-hero.png",
+        "techStack": "Claude MCP, React, Remotion, FastAPI",
+        "timeline": "Jan 2024 - Mar 2024",
+        "desc": "Engineered an autonomous AI video production pipeline using Claude Code and Model Context Protocol (MCP) servers. Automates end-to-end video workflows with human-in-the-loop review checkpoints.",
+        "bullets": [
+            "Orchestrated Claude multi-agent pipelines with Remotion (React) for deterministic rendering",
+            "Integrated ElevenLabs, Pexels, and Leonardo-AI via custom MCP instances"
+        ],
+        "status": "published"
+    },
+    {
+        "id": "enterprise-rag",
+        "type": "Enterprise RAG",
+        "title": "Scalable Multi-Agent Workflows",
+        "desc": "Engineered highly reliable ingestion and retrieval pipelines for massive enterprise repositories utilizing distributed intelligence and external data binding.",
+        "bullets": [
+            "RAG pipelines scaling to 500+ enterprise documents using Qdrant",
+            "Developed custom MCP servers to expose internal business intelligence"
+        ],
+        "status": "coming-soon"
+    }
+]
