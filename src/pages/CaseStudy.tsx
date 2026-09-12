@@ -1,39 +1,25 @@
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { ArrowLeftIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import { loadCaseStudyRegistry, loadCaseStudyContent } from '../utils/caseStudyLoader';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 
-interface TocItem {
-    title: string;
-    slug: string;
-    level: number;
-}
-
-const extractHeadings = (md: string): TocItem[] => {
-    // Match ## or ### headings
-    const regex = /^(#{2,3})\s+(.+)$/gm;
-    let match;
-    const extracted: TocItem[] = [];
-    while ((match = regex.exec(md)) !== null) {
-        const title = match[2].trim();
-        const level = match[1].length;
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        extracted.push({ title, slug, level });
-    }
-    return extracted;
-};
 
 const CaseStudy = () => {
     const { id } = useParams<{ id: string }>();
     const [meta, setMeta] = useState<CaseStudyMeta | null>(null);
     const [content, setContent] = useState<string>('');
-    const [headings, setHeadings] = useState<TocItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [activeSlug, setActiveSlug] = useState<string>('');
+
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
     useEffect(() => {
         if (!id) return;
@@ -55,7 +41,6 @@ const CaseStudy = () => {
                 if (study.status === 'published') {
                     const md = await loadCaseStudyContent(id);
                     setContent(md);
-                    setHeadings(extractHeadings(md));
                 }
             } catch {
                 setError(true);
@@ -66,29 +51,6 @@ const CaseStudy = () => {
 
         load();
     }, [id]);
-
-    useEffect(() => {
-        // Intersection observer to highlight active TOC item
-        if (headings.length === 0) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSlug(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: '-100px 0px -40% 0px' }
-        );
-
-        headings.forEach((heading) => {
-            const el = document.getElementById(heading.slug);
-            if (el) observer.observe(el);
-        });
-
-        return () => observer.disconnect();
-    }, [headings, content]);
 
     // Loading skeleton
     if (loading) {
@@ -162,12 +124,12 @@ const CaseStudy = () => {
 
     // Published — full content
     return (
-        <div className="max-w-4xl mx-auto py-20 px-4 text-center">
-            <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-bold mb-12 transition-colors group">
-                <ArrowLeftIcon className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to Case Studies
-            </Link>
-        <div className="min-h-screen bg-[#f8f9fa] py-6 lg:py-16 px-3 sm:px-6 md:px-10 lg:px-12">
+        <div className="min-h-screen bg-page py-6 lg:py-16 px-3 sm:px-6 md:px-10 lg:px-12 transition-colors duration-300">
+            {/* Minimalist Top Edge Scroll Progress Bar */}
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1 bg-accent z-50 origin-left"
+                style={{ scaleX }}
+            />
             <div className="max-w-[1300px] mx-auto mb-6 px-1">
                 <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-medium transition-all group">
                     <ArrowLeftIcon className="w-5 h-5 mr-3 group-hover:-translate-x-2 transition-transform" />
@@ -179,22 +141,22 @@ const CaseStudy = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-[1300px] mx-auto bg-white rounded-[2rem] md:rounded-[3rem] shadow-sm overflow-hidden"
+                className="max-w-[1300px] mx-auto bg-surface rounded-[2rem] md:rounded-[3rem] shadow-sm overflow-hidden border border-border/40"
             >
                 {/* HERO SECTION (MOCKUP STYLE) */}
-                <div className="relative p-1 sm:p-8 md:p-12 lg:p-16 lg:pb-12 bg-white rounded-t-[2rem] md:rounded-t-[3rem]">
-                    <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center bg-gray-50/50 rounded-[1.5rem] md:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-100">
+                <div className="relative p-1 sm:p-8 md:p-12 lg:p-16 lg:pb-12 bg-surface rounded-t-[2rem] md:rounded-t-[3rem]">
+                    <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center bg-elevated/40 rounded-[1.5rem] md:rounded-3xl p-4 sm:p-6 md:p-8 border border-border">
 
                         {/* Left: Text & Badges */}
                         <div className="flex flex-col justify-center">
                             <span className="text-accent font-bold text-xs md:text-sm uppercase tracking-[0.15em] mb-4">
                                 Case Study
                             </span>
-                            <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-extrabold text-gray-900 leading-[1.05] tracking-tight mb-6 uppercase">
+                            <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-extrabold text-textPrimary leading-[1.05] tracking-tight mb-6 uppercase">
                                 {meta.title}
                             </h1>
                             {meta.subtitle && (
-                                <p className="text-xl md:text-2xl text-gray-800 font-medium mb-10 max-w-xl leading-snug">
+                                <p className="text-xl md:text-2xl text-textSecondary font-medium mb-10 max-w-xl leading-snug">
                                     {meta.subtitle}
                                 </p>
                             )}
@@ -202,9 +164,9 @@ const CaseStudy = () => {
                             {/* Badges container */}
                             <div className="flex flex-wrap gap-4 mt-2">
                                 {meta.techStack && (
-                                    <div className="px-5 py-2.5 bg-white rounded-full border border-gray-200/80 shadow-sm flex items-center">
+                                    <div className="px-5 py-2.5 bg-surface rounded-full border border-border shadow-sm flex items-center">
                                         <span className="text-[11px] font-bold text-textSecondary uppercase tracking-widest mr-2">Tech Stack:</span>
-                                        <span className="text-[13px] font-bold text-gray-900">{meta.techStack}</span>
+                                        <span className="text-[13px] font-bold text-textPrimary">{meta.techStack}</span>
                                     </div>
                                 )}
                             </div>
@@ -212,7 +174,7 @@ const CaseStudy = () => {
 
                         {/* Right: Feature Image */}
                         {meta.heroImage && (
-                            <div className="relative h-[250px] sm:h-[350px] lg:h-[450px] w-full rounded-2xl md:rounded-3xl overflow-hidden bg-white shadow-xl max-w-[600px] ml-auto">
+                            <div className="relative h-[250px] sm:h-[350px] lg:h-[450px] w-full rounded-2xl md:rounded-3xl overflow-hidden bg-surface shadow-xl border border-border/30 max-w-[600px] ml-auto">
                                 <img
                                     src={meta.heroImage}
                                     alt="Architecture Illustration"
@@ -225,22 +187,7 @@ const CaseStudy = () => {
 
                 {/* CONTENT SECTION (Single Column Full Width) */}
                 <div className="p-4 sm:p-8 md:p-12 lg:p-16 pt-0 lg:pt-8 w-full">
-                    {/* Universal Sticky TOC */}
-                    {headings.length > 0 && (
-                        <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-sm px-4 py-3 -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-16 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-6">
-                            {headings.map(h => (
-                                <a
-                                    key={h.slug}
-                                    href={`#${h.slug}`}
-                                    className={`text-sm tracking-wide font-bold transition-all duration-300
-                                        ${h.slug === activeSlug ? 'text-accent border-b-2 border-accent pb-1' : 'text-gray-400 hover:text-gray-900'}
-                                    `}
-                                >
-                                    {h.title}
-                                </a>
-                            ))}
-                        </div>
-                    )}
+                    {/* MAIN CONTENT TEXT */}
 
                     <article className="mt-8 md:mt-4 w-full max-w-none">
                         <MarkdownRenderer content={content} />
