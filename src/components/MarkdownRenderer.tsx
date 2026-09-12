@@ -55,7 +55,7 @@ const components: Components = {
         </li>
     ),
     strong: ({ children }) => (
-        <strong className="font-bold text-gray-900 dark:text-white">{children}</strong>
+        <strong className="font-bold text-textPrimary">{children}</strong>
     ),
     em: ({ children }) => (
         <em className="italic text-textSecondary opacity-90">{children}</em>
@@ -122,7 +122,7 @@ const components: Components = {
     img: ({ src, alt }) => (
         <figure className="my-12 relative group">
             <div className="absolute inset-x-4 -inset-y-4 bg-gradient-to-b from-transparent via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[2rem] -z-10"></div>
-            <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] bg-surface transform transition-transform group-hover:-translate-y-1 duration-300 relative z-10">
+            <div className="overflow-hidden rounded-2xl border border-border/60 shadow-lg bg-surface transform transition-transform group-hover:-translate-y-1 duration-300 relative z-10">
                 <img
                     src={src}
                     alt={alt || ''}
