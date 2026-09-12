@@ -87,7 +87,10 @@ const Home = () => {
 
         {/* Right: Text Content */}
         <div className="text-center md:text-left space-y-5 relative flex-1 max-w-2xl">
-          {/* Handwritten Annotation */}
+          {/* Handwritten Annotation — absolute on large screens, inline on mobile */}
+          <div className="lg:hidden flex flex-col items-center mb-2 text-textSecondary opacity-70">
+            <span style={{ fontFamily: 'Caveat, cursive' }} className="text-lg text-center leading-tight">Building useful AI for a better tomorrow.</span>
+          </div>
           <div className="hidden lg:flex flex-col items-center absolute -top-8 right-0 text-textSecondary opacity-80 z-10 rotate-3 translate-x-8">
             <span style={{ fontFamily: 'Caveat, cursive' }} className="text-xl text-center leading-tight">Building useful<br />AI for a better<br />tomorrow.</span>
             <svg className="w-10 h-10 text-textSecondary opacity-60 -ml-16 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +111,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-4xl lg:text-5xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
+            className="text-4xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
           >
             I ship production AI systems.
           </motion.h1>

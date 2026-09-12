@@ -12,7 +12,7 @@ const Footer = () => {
               href="https://github.com/Dadiya-Harsh"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-textSecondary hover:text-textPrimary transition-colors"
+              className="text-textSecondary hover:text-accent transition-colors"
             >
               <span className="sr-only">GitHub</span>
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

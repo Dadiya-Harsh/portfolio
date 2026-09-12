@@ -13,9 +13,9 @@ const CaseStudy = () => {
 
     return (
         <div className="max-w-4xl mx-auto py-20 px-4 text-center">
-            <Link to="/" className="inline-flex items-center text-textSecondary hover:text-accent font-bold mb-12 transition-colors group">
+            <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-bold mb-12 transition-colors group">
                 <ArrowLeftIcon className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to Home
+                Back to Case Studies
             </Link>
 
             <motion.div
