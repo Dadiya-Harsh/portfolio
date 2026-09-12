@@ -121,7 +121,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-4xl lg:text-5xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
+            className="text-4xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
           >
             I ship production AI systems.
           </motion.h1>

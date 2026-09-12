@@ -162,6 +162,11 @@ const CaseStudy = () => {
 
     // Published — full content
     return (
+        <div className="max-w-4xl mx-auto py-20 px-4 text-center">
+            <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-bold mb-12 transition-colors group">
+                <ArrowLeftIcon className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+                Back to Case Studies
+            </Link>
         <div className="min-h-screen bg-[#f8f9fa] py-6 lg:py-16 px-3 sm:px-6 md:px-10 lg:px-12">
             <div className="max-w-[1300px] mx-auto mb-6 px-1">
                 <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-medium transition-all group">

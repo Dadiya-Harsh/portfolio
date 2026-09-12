@@ -119,7 +119,7 @@ const Navbar = ({ toggleTheme, currentTheme }: NavbarProps) => {
               </Link>
               <button
                 onClick={toggleTheme}
-                className="block w-full text-left px-4 py-3 rounded-xl hover:bg-elevated text-textSecondary hover:text-textPrimary transition-colors font-medium mt-2 flex items-center justify-between"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-elevated text-textSecondary hover:text-textPrimary transition-colors font-medium mt-2"
               >
                 <span>{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
                 {currentTheme === 'dark' ? '☀️' : '🌙'}

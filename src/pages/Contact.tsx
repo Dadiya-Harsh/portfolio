@@ -78,9 +78,9 @@ const Contact = () => {
         className="bg-surface border border-border rounded-[2rem] overflow-hidden shadow-sm flex flex-col md:flex-row mb-16"
       >
         {/* Left Side: Dark Contact Info */}
-        <div className="w-full md:w-[45%] bg-[#0a0a0a] text-white p-10 md:p-14 flex flex-col relative overflow-hidden">
+        <div className="w-full md:w-[45%] bg-[#0a0a0a] text-white p-6 md:p-14 flex flex-col relative overflow-hidden">
           {/* Subtle glowing orange curve bottom right */}
-          <div className="absolute -bottom-48 -right-48 w-[400px] h-[400px] border-[2px] border-transparent border-t-accent/70 border-l-accent/70 rounded-full shadow-[-20px_-20px_120px_rgba(224,78,24,0.15)] pointer-events-none" />
+          <div className="hidden md:block absolute -bottom-48 -right-48 w-[400px] h-[400px] border-[2px] border-transparent border-t-accent/70 border-l-accent/70 rounded-full shadow-[-20px_-20px_120px_rgba(224,78,24,0.15)] pointer-events-none" />
 
           <p className="text-white/50 text-xs font-extrabold tracking-widest uppercase mb-3 relative z-10">Contact</p>
           <h2 className="text-4xl font-extrabold text-white mb-6 relative z-10">Contact Info</h2>
@@ -110,7 +110,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="mt-12 md:mt-24 pt-8 border-t border-white/10 relative z-10">
+          <div className="mt-8 md:mt-24 pt-8 border-t border-white/10 relative z-10">
             <p className="text-xs text-white/50 font-extrabold tracking-widest uppercase mb-5">Find Me Elsewhere</p>
             <div className="flex gap-4">
               <a href="https://www.linkedin.com/in/harsh-dadiya/" target="_blank" rel="noopener noreferrer" className="flex-1 max-w-[140px] px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center gap-2 text-white/90 hover:text-white transition-all group">
@@ -126,7 +126,7 @@ const Contact = () => {
             </div>
 
             {/* Handwritten Note */}
-            <div className="mt-16 rotate-[-6deg] opacity-60 pl-2">
+            <div className="mt-8 md:mt-16 rotate-[-6deg] opacity-60 pl-2">
               <span style={{ fontFamily: 'Caveat, cursive' }} className="text-xl">Good ideas<br />build better tomorrows.</span>
             </div>
           </div>
