@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved;
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }
@@ -18,6 +20,7 @@ function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -28,7 +31,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-page text-textPrimary antialiased transition-colors duration-300 flex flex-col">
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
-        <main className="container mx-auto px-4 pt-4 md:pt-6 pb-12 flex-grow flex flex-col">
+        <main className="pt-4 md:pt-6 pb-12 flex-grow flex flex-col">
           <AnimatedRoutes />
         </main>
         <Footer />

@@ -50,7 +50,7 @@ const Projects = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-20 py-12">
+    <div className="max-w-5xl mx-auto px-4 space-y-20 py-12">
       {/* Header */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}

@@ -108,10 +108,11 @@ const Blog = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-12">
+    <div className="max-w-4xl mx-auto px-4 py-12">
       <section className="text-center max-w-2xl mx-auto mb-16">
-        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold text-textPrimary mb-6 tracking-tight">
-          Writing
+        <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-4">Writing</p>
+        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-5xl font-extrabold text-textPrimary tracking-tight mb-6">
+          My Blog
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-lg text-textSecondary">
           Articles on AI, Machine Learning & Data Science
