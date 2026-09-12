@@ -1,39 +1,25 @@
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { ArrowLeftIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import { loadCaseStudyRegistry, loadCaseStudyContent } from '../utils/caseStudyLoader';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 
-interface TocItem {
-    title: string;
-    slug: string;
-    level: number;
-}
-
-const extractHeadings = (md: string): TocItem[] => {
-    // Match ## or ### headings
-    const regex = /^(#{2,3})\s+(.+)$/gm;
-    let match;
-    const extracted: TocItem[] = [];
-    while ((match = regex.exec(md)) !== null) {
-        const title = match[2].trim();
-        const level = match[1].length;
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        extracted.push({ title, slug, level });
-    }
-    return extracted;
-};
 
 const CaseStudy = () => {
     const { id } = useParams<{ id: string }>();
     const [meta, setMeta] = useState<CaseStudyMeta | null>(null);
     const [content, setContent] = useState<string>('');
-    const [headings, setHeadings] = useState<TocItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [activeSlug, setActiveSlug] = useState<string>('');
+
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
     useEffect(() => {
         if (!id) return;
@@ -55,7 +41,6 @@ const CaseStudy = () => {
                 if (study.status === 'published') {
                     const md = await loadCaseStudyContent(id);
                     setContent(md);
-                    setHeadings(extractHeadings(md));
                 }
             } catch {
                 setError(true);
@@ -66,29 +51,6 @@ const CaseStudy = () => {
 
         load();
     }, [id]);
-
-    useEffect(() => {
-        // Intersection observer to highlight active TOC item
-        if (headings.length === 0) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSlug(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: '-100px 0px -40% 0px' }
-        );
-
-        headings.forEach((heading) => {
-            const el = document.getElementById(heading.slug);
-            if (el) observer.observe(el);
-        });
-
-        return () => observer.disconnect();
-    }, [headings, content]);
 
     // Loading skeleton
     if (loading) {
@@ -163,6 +125,11 @@ const CaseStudy = () => {
     // Published — full content
     return (
         <div className="min-h-screen bg-page py-6 lg:py-16 px-3 sm:px-6 md:px-10 lg:px-12 transition-colors duration-300">
+            {/* Minimalist Top Edge Scroll Progress Bar */}
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1 bg-accent z-50 origin-left"
+                style={{ scaleX }}
+            />
             <div className="max-w-[1300px] mx-auto mb-6 px-1">
                 <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-medium transition-all group">
                     <ArrowLeftIcon className="w-5 h-5 mr-3 group-hover:-translate-x-2 transition-transform" />
@@ -220,22 +187,7 @@ const CaseStudy = () => {
 
                 {/* CONTENT SECTION (Single Column Full Width) */}
                 <div className="p-4 sm:p-8 md:p-12 lg:p-16 pt-0 lg:pt-8 w-full">
-                    {/* Universal Sticky TOC */}
-                    {headings.length > 0 && (
-                        <div className="sticky top-0 z-40 bg-surface/90 backdrop-blur-xl border-b border-border/50 shadow-sm px-4 py-3 -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-16 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-6">
-                            {headings.map(h => (
-                                <a
-                                    key={h.slug}
-                                    href={`#${h.slug}`}
-                                    className={`text-sm tracking-wide font-bold transition-all duration-300
-                                        ${h.slug === activeSlug ? 'text-accent border-b-2 border-accent pb-1' : 'text-textSecondary hover:text-textPrimary'}
-                                    `}
-                                >
-                                    {h.title}
-                                </a>
-                            ))}
-                        </div>
-                    )}
+                    {/* MAIN CONTENT TEXT */}
 
                     <article className="mt-8 md:mt-4 w-full max-w-none">
                         <MarkdownRenderer content={content} />

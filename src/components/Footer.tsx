@@ -4,7 +4,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-textSecondary text-sm font-medium mb-4 md:mb-0">
-            © {new Date().getFullYear()} Harsh Dadiya. Built with React & Tailwind.
+            © {new Date().getFullYear()} Harsh Dadiya.
           </div>
 
           <div className="flex space-x-6">
