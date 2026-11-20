@@ -228,7 +228,7 @@ const About = () => {
                         <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
                         <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Data Science & ML Intern</h3>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-background">B</div>
+                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-page">B</div>
                           <span className="text-textSecondary text-sm font-semibold">BrainyBeam Info-Tech</span>
                         </div>
                         <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
