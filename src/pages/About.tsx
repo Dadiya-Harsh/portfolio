@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { experienceYears } from '../utils/experience';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const techPills = [
   { label: 'Python', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg' },
@@ -16,6 +19,7 @@ const techPills = [
 ];
 
 const About = () => {
+  useDocumentMeta(getRouteMeta('/about'));
   const [showEarlier, setShowEarlier] = useState(false);
 
   return (
@@ -69,10 +73,10 @@ const About = () => {
               An AI Engineer focused on shipping production LLM systems in Python and contributing to open source like OpenMontage.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
-              I'm an AI Engineer with 1.5+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
+              I'm an AI Engineer with {experienceYears()}+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
-              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I'm also an active open source contributor, with contributions to OpenMontage (50K+ stars), and I love exploring new technologies like MCP, RAG, and multi-agent systems.
+              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I've also found and fixed a bug in OpenMontage, an 81K star agent framework, and I love exploring new technologies like MCP, RAG, and multi-agent systems.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
               When I'm not building, you'll find me writing about AI, learning something new, or tinkering with side projects.
@@ -110,8 +114,8 @@ const About = () => {
             </p>
           </div>
 
-          {/* Timeline */}
-          <div className="relative">
+          {/* Timeline. overflow-x-clip: cards slide in from the side, and before they scroll into view that offset made the page scroll sideways on phones */}
+          <div className="relative overflow-x-clip">
             {/* Central vertical line */}
             <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
 
@@ -228,7 +232,7 @@ const About = () => {
                         <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
                         <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Data Science & ML Intern</h3>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-background">B</div>
+                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-page">B</div>
                           <span className="text-textSecondary text-sm font-semibold">BrainyBeam Info-Tech</span>
                         </div>
                         <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">

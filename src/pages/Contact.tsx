@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { UserIcon, EnvelopeIcon, ChatBubbleOvalLeftEllipsisIcon, PaperAirplaneIcon, CursorArrowRaysIcon, ArrowRightIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const Contact = () => {
+  useDocumentMeta(getRouteMeta('/contact'));
   const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
