@@ -23,7 +23,7 @@ const CaseStudiesIndex = () => {
                     Case Studies
                 </h1>
                 <p className="text-lg text-textSecondary leading-relaxed">
-                    Deep dives into the architecture, challenges, and solutions behind the enterprise AI systems I've shipped to production.
+                    Write-ups of AI systems I've worked on: the problem, the architecture, what was hard and what I'd change.
                 </p>
             </section>
 
@@ -42,22 +42,29 @@ const CaseStudiesIndex = () => {
                             <div className="h-4 w-3/4 bg-elevated rounded-lg" />
                         </div>
                     ))
-                    : studies.map((study, index) => (
+                    : studies.map((study, index) => {
+                        const published = study.status === 'published';
+                        return (
                         <motion.div
                             key={study.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="bg-surface p-8 md:p-10 rounded-3xl border-2 border-border flex flex-col h-full"
+                            className={`p-8 md:p-10 rounded-3xl flex flex-col h-full ${published ? 'bg-surface border-2 border-border' : 'bg-elevated/40 border-2 border-dashed border-border'}`}
                         >
                             <div className="flex items-center gap-3 mb-6">
-                                <span className="px-3 py-1 bg-accent/10 text-accent font-bold text-xs uppercase tracking-widest rounded-lg">Production</span>
+                                {published ? (
+                                    <span className="px-3 py-1 bg-accent/10 text-accent font-bold text-xs uppercase tracking-widest rounded-lg">Production</span>
+                                ) : (
+                                    <span className="px-3 py-1 bg-elevated text-textSecondary font-bold text-xs uppercase tracking-widest rounded-lg">Write-up in progress</span>
+                                )}
                                 <span className="px-3 py-1 bg-elevated text-textSecondary font-bold text-xs uppercase tracking-widest rounded-lg">{study.type}</span>
                             </div>
                             <h3 className="text-2xl font-bold text-textPrimary mb-4">{study.title}</h3>
                             <p className="text-textSecondary leading-relaxed mb-6 flex-grow">
                                 {study.desc}
                             </p>
+                            {published && (
                             <ul className="space-y-3 mb-8">
                                 {study.bullets.map((bullet, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-textSecondary font-medium text-left">
@@ -66,18 +73,22 @@ const CaseStudiesIndex = () => {
                                     </li>
                                 ))}
                             </ul>
+                            )}
+                            {published && (
                             <Link to={`/case-studies/${study.id}`} className="inline-flex items-center font-bold text-textPrimary hover:text-accent group transition-colors mt-auto self-start">
                                 Read Full Case Study <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                             </Link>
+                            )}
                         </motion.div>
-                    ))
+                        );
+                    })
                 }
             </section>
 
             <div className="text-center mt-12 bg-elevated p-8 rounded-3xl border border-border">
                 <p className="text-textSecondary font-medium mb-4">More architectural deep dives are currently being written, covering:</p>
                 <div className="flex flex-wrap justify-center gap-2">
-                    {['Generative Video Pipelines', 'MCP Server Extensibility', 'Enterprise Recommendation Engines', 'AQI Monitoring'].map(tag => (
+                    {['MCP Server Extensibility', 'Recommendation Engines'].map(tag => (
                         <span key={tag} className="px-3 py-1 bg-surface border border-border rounded-full text-xs font-bold text-textSecondary uppercase tracking-wider">{tag}</span>
                     ))}
                 </div>

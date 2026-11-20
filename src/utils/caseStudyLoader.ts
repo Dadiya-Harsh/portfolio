@@ -6,7 +6,6 @@ export interface CaseStudyMeta {
     desc: string;
     heroImage?: string;
     techStack?: string;
-    timeline?: string;
     role?: string;      // "AI Engineer"
     team?: string;      // "2 engineers"
     duration?: string;  // "1 month"

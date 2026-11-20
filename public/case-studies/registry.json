@@ -5,12 +5,14 @@
         "title": "Voice Agent Pipeline",
         "subtitle": "AI-Driven Conversation Orchestration",
         "heroImage": "/images/voice-agent-hero.png",
-        "techStack": "Python, OpenAI API, Twilio, Redis, Docker",
-        "timeline": "Oct 2023 - Jan 2024",
-        "desc": "Architected and deployed a production-grade voice agent serving scalable, low-latency conversational AI. Replaced traditional turn-based constraints with uninterrupted, bidirectional streaming architectures.",
+        "techStack": "Python, FastAPI, OpenAI Realtime API, Twilio, Redis, PostgreSQL",
+        "role": "AI Engineer",
+        "team": "2 engineers",
+        "duration": "1 month",
+        "desc": "A voice agent that takes real phone calls and talks back in real time. I built it on FastAPI, WebSockets and the OpenAI Realtime API, and it's running in production with real callers.",
         "bullets": [
-            "Integrated OpenAI Realtime API over FastAPI WebSockets",
-            "Managed bi-directional ultra-low latency audio streams"
+            "Callers can cut in mid-sentence without breaking the call",
+            "The agent checks and updates CRM data while the call is still going"
         ],
         "status": "published"
     },
@@ -20,24 +22,15 @@
         "title": "Generative Video Pipelines",
         "subtitle": "Autonomous Multi-Agent Film Production",
         "heroImage": "/images/video-gen-hero.png",
-        "techStack": "Claude MCP, React, Remotion, FastAPI",
-        "timeline": "Jan 2024 - Mar 2024",
+        "techStack": "Claude Code, MCP, Remotion, Python, Docker",
+        "role": "AI Engineer",
+        "team": "2 engineers",
+        "duration": "4 months",
         "desc": "Engineered an autonomous AI video production pipeline using Claude Code and Model Context Protocol (MCP) servers. Automates end-to-end video workflows with human-in-the-loop review checkpoints.",
         "bullets": [
             "Orchestrated Claude multi-agent pipelines with Remotion (React) for deterministic rendering",
             "Integrated ElevenLabs, Pexels, and Leonardo-AI via custom MCP instances"
         ],
         "status": "published"
-    },
-    {
-        "id": "enterprise-rag",
-        "type": "Enterprise RAG",
-        "title": "Scalable Multi-Agent Workflows",
-        "desc": "Engineered highly reliable ingestion and retrieval pipelines for massive enterprise repositories utilizing distributed intelligence and external data binding.",
-        "bullets": [
-            "RAG pipelines scaling to 500+ enterprise documents using Qdrant",
-            "Developed custom MCP servers to expose internal business intelligence"
-        ],
-        "status": "coming-soon"
     }
 ]

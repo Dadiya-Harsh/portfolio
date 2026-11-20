@@ -114,7 +114,7 @@ const CaseStudy = () => {
                             to="/contact?subject=Questions about case studies"
                             className="px-8 py-4 bg-textPrimary text-page hover:scale-105 rounded-xl font-bold transition-transform shadow-lg hover:shadow-xl"
                         >
-                            Ask me about this architecture
+                            Ask me about this system
                         </Link>
                     </div>
                 </motion.div>
@@ -161,6 +161,23 @@ const CaseStudy = () => {
                                 </p>
                             )}
 
+                            {/* Role / team / duration / status */}
+                            {(meta.role || meta.team || meta.duration || meta.status) && (
+                                <dl className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-border">
+                                    {[
+                                        { label: 'Role', value: meta.role },
+                                        { label: 'Team', value: meta.team },
+                                        { label: 'Duration', value: meta.duration },
+                                        { label: 'Status', value: meta.status === 'published' ? 'In production' : 'Write-up in progress' },
+                                    ].filter(item => item.value).map(item => (
+                                        <div key={item.label}>
+                                            <dt className="text-[11px] font-bold text-textSecondary uppercase tracking-widest mb-1">{item.label}</dt>
+                                            <dd className="text-sm font-bold text-textPrimary">{item.value}</dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            )}
+
                             {/* Badges container */}
                             <div className="flex flex-wrap gap-4 mt-2">
                                 {meta.techStack && (
@@ -203,7 +220,7 @@ const CaseStudy = () => {
                             to={`/contact?subject=Questions about ${meta.title}`}
                             className="px-8 py-4 bg-textPrimary text-page hover:scale-[1.02] active:scale-95 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl"
                         >
-                            Ask me about this architecture
+                            Ask me about this system
                         </Link>
                     </div>
                 </div>
