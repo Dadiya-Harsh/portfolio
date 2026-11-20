@@ -7,6 +7,9 @@ export interface CaseStudyMeta {
     heroImage?: string;
     techStack?: string;
     timeline?: string;
+    role?: string;      // "AI Engineer"
+    team?: string;      // "2 engineers"
+    duration?: string;  // "1 month"
     bullets: string[];
     status: 'published' | 'coming-soon';
 }
