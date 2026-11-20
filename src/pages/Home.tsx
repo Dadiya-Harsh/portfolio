@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { loadCaseStudyRegistry } from '../utils/caseStudyLoader';
+import { experienceYears } from '../utils/experience';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import {
   MicrophoneIcon,
@@ -14,63 +15,26 @@ import {
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
-// Count-up hook: animates a number from 0 to `end` when `trigger` is true
-const useCountUp = (end: number, duration: number = 1.5, trigger: boolean = false) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!trigger) return;
-    let startTime: number | null = null;
-    let rafId: number;
-
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      // Ease-out cubic for a smooth deceleration feel
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
-      if (progress < 1) {
-        rafId = requestAnimationFrame(step);
-      } else {
-        setCount(end);
-      }
-    };
-
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
-  }, [end, duration, trigger]);
-
-  return count;
-};
-
-// Individual stat card component with count-up
-const StatCard = ({ value, suffix, label, sub, delay }: {
-  value: number;
-  suffix: string;
-  label: string;
+// Individual stat card
+const StatCard = ({ value, label, sub, delay }: {
+  value: string;
+  label?: string;
   sub: string;
   delay: number;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const count = useCountUp(value, 1.8, isInView);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: delay }}
-      className="text-center px-4 md:px-8 w-full"
-    >
-      <div className="text-3xl lg:text-4xl font-extrabold text-accent mb-2 tracking-tight">
-        {count}{suffix} <span className="text-xl lg:text-2xl font-bold text-textPrimary">{label}</span>
-      </div>
-      <div className="text-textSecondary text-sm font-medium">{sub}</div>
-    </motion.div>
-  );
-};
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.4, delay: delay }}
+    className="text-center px-4 md:px-8 w-full"
+  >
+    <div className="text-3xl lg:text-4xl font-extrabold text-accent mb-2 tracking-tight">
+      {value}{label && <> <span className="text-xl lg:text-2xl font-bold text-textPrimary">{label}</span></>}
+    </div>
+    <div className="text-textSecondary text-sm font-medium">{sub}</div>
+  </motion.div>
+);
 
 const Home = () => {
   const [caseStudies, setCaseStudies] = useState<CaseStudyMeta[]>([]);
@@ -161,11 +125,10 @@ const Home = () => {
       {/* 2. Stats Strip */}
       <section className="border-y border-border bg-page py-12 lg:py-16">
         <div className="container max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 md:divide-x divide-border">
-            <StatCard value={1} suffix=".5+" label="Years" sub="Experience" delay={0} />
-            <StatCard value={50} suffix="K+" label="Stars" sub="OSS Merge" delay={0.1} />
-            <StatCard value={500} suffix="+" label="Documents" sub="RAG-Indexed" delay={0.2} />
-            <StatCard value={15} suffix="+" label="Systems" sub="Shipped to Prod" delay={0.3} />
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 md:gap-0 md:divide-x divide-border">
+            <StatCard value={`${experienceYears()}+`} label="yrs" sub="Building AI in production" delay={0} />
+            <StatCard value="OpenMontage" sub="Open-source contributor · 81K★ repo" delay={0.1} />
+            <StatCard value="500+" label="docs" sub="Indexed in RAG systems" delay={0.2} />
           </div>
         </div>
       </section>

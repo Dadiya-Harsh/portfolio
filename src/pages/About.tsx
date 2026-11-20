@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { experienceYears } from '../utils/experience';
 
 const techPills = [
   { label: 'Python', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg' },
@@ -69,7 +70,7 @@ const About = () => {
               An AI Engineer focused on shipping production LLM systems in Python and contributing to open source like OpenMontage.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
-              I'm an AI Engineer with 1.5+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
+              I'm an AI Engineer with {experienceYears()}+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
               From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I'm also an active open source contributor, with contributions to OpenMontage (50K+ stars), and I love exploring new technologies like MCP, RAG, and multi-agent systems.
