@@ -10,6 +10,6 @@ export const siteConfig = {
     name: 'SecureWorkspace',
     description:
       'An open-source encrypted backup and sync app. Python core, Google Drive storage, Windows, Ubuntu and Android.',
-    repoUrl: '',
+    repoUrl: 'https://github.com/Dadiya-Harsh/SecureWorkspace',
   },
 };
