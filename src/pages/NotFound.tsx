@@ -12,7 +12,7 @@ const NotFound = () => {
           This page doesn't exist
         </h1>
         <p className="text-[17px] text-textSecondary leading-relaxed">
-          The link might be old, or there's a typo in the address.
+          The link might be old, or there's a typo in the address. Even my agents hallucinate a URL sometimes.
         </p>
         <div className="flex flex-wrap justify-center gap-3 mt-3">
           <Link
