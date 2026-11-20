@@ -114,8 +114,8 @@ const About = () => {
             </p>
           </div>
 
-          {/* Timeline */}
-          <div className="relative">
+          {/* Timeline. overflow-x-clip: cards slide in from the side, and before they scroll into view that offset made the page scroll sideways on phones */}
+          <div className="relative overflow-x-clip">
             {/* Central vertical line */}
             <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-accent via-accent/40 to-white/10" />
 
