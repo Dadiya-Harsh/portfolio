@@ -32,11 +32,13 @@ const Projects = () => {
 
   const ossContributions = [
     {
-      title: "Found and reported a startup bug in OpenMontage",
-      description: "OpenMontage is an open-source agent framework with 81K stars. One of its skills was skipped on startup because its SKILL.md had no YAML frontmatter, and the video-toolkit skill was named in two different ways (kebab-case and snake_case). I traced both causes and reported them. The issue is closed.",
+      title: "Found and fixed a startup bug in OpenMontage",
+      description: "OpenMontage is an open-source agent framework with 81K stars. One of its skills was skipped on startup because its SKILL.md had no YAML frontmatter, and the video-toolkit skill was named in two different ways (kebab-case and snake_case). I reported it, then sent a fix that got merged.",
       technologies: ["Python", "YAML", "Agent Frameworks"],
-      github: "https://github.com/OpenMontageInc/OpenMontage/issues/192",
-      linkLabel: "View issue #192",
+      links: [
+        { label: "View issue #192", url: "https://github.com/OpenMontageInc/OpenMontage/issues/192" },
+        { label: "View PR #191", url: "https://github.com/OpenMontageInc/OpenMontage/pull/191" },
+      ],
     }
   ];
 
@@ -115,16 +117,13 @@ const Projects = () => {
         </motion.p>
 
         {ossContributions.map((project, i) => (
-          <motion.a
+          <motion.div
             key={project.title}
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="block group relative bg-surface border border-border rounded-2xl p-7 hover:border-accent/60 transition-all duration-300 overflow-hidden"
+            className="relative bg-surface border border-border rounded-2xl p-7 overflow-hidden"
           >
             {/* Warm gradient accent */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.07] via-transparent to-transparent pointer-events-none" />
@@ -134,11 +133,8 @@ const Projects = () => {
                 <span className="text-xs font-bold tracking-widest uppercase bg-accent/15 text-accent border border-accent/30 px-3 py-1 rounded-full">
                   Open Source
                 </span>
-                <svg className="w-5 h-5 text-textSecondary group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-textPrimary mb-3 group-hover:text-accent transition-colors">
+              <h3 className="text-xl md:text-2xl font-bold text-textPrimary mb-3">
                 {project.title}
               </h3>
               <p className="text-sm text-textSecondary leading-relaxed mb-5 max-w-2xl">
@@ -154,11 +150,21 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
-              <p className="mt-5 text-sm font-semibold text-accent">
-                {project.linkLabel} →
-              </p>
+              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+                {project.links.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-accent hover:underline"
+                  >
+                    {link.label} →
+                  </a>
+                ))}
+              </div>
             </div>
-          </motion.a>
+          </motion.div>
         ))}
       </section>
 

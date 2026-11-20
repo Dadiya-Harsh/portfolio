@@ -73,7 +73,7 @@ const About = () => {
               I'm an AI Engineer with {experienceYears()}+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
-              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I've also reported and diagnosed a bug in OpenMontage, an 81K star agent framework, and I love exploring new technologies like MCP, RAG, and multi-agent systems.
+              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I've also found and fixed a bug in OpenMontage, an 81K star agent framework, and I love exploring new technologies like MCP, RAG, and multi-agent systems.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
               When I'm not building, you'll find me writing about AI, learning something new, or tinkering with side projects.
