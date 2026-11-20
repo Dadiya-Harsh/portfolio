@@ -1,99 +1,36 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useMediumPosts } from '../hooks/useMediumPosts';
+import type { MediumPost } from '../hooks/useMediumPosts';
 
-interface Article {
-  title: string;
-  link: string;
-  pubDate: string;
-  description: string;
-  categories: string[];
-}
+// The first post whose link contains this gets the big featured card
+const FEATURED_SLUG = 'model-context-protocol';
+
+const ReadOnMedium = () => (
+  <span className="inline-block mt-6 text-sm font-bold text-accent">Read on Medium ↗</span>
+);
+
+const PostMeta = ({ article, formatDate }: { article: MediumPost; formatDate: (d: string) => string }) => (
+  <div className="flex flex-wrap items-center gap-2">
+    <div className="flex items-center gap-2 text-textSecondary text-sm font-medium bg-elevated px-4 py-1.5 rounded-full border border-border">
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+      {formatDate(article.pubDate)}
+    </div>
+    {article.categories.slice(0, 3).map((category) => (
+      <span
+        key={category}
+        className="px-3 py-1 bg-elevated text-textSecondary border border-border rounded-lg text-xs font-medium"
+      >
+        {category}
+      </span>
+    ))}
+  </div>
+);
 
 const Blog = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { posts: articles, loading, error } = useMediumPosts();
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch('/api/medium');
-        if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
-        // Deduplicate by title to prevent cross-posted articles showing twice
-        const seen = new Set<string>();
-        const unique = (data.articles as Article[]).filter((a) => {
-          const key = cleanText(a.title).toLowerCase();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-        setArticles(unique);
-      } catch (err) {
-        console.error('Error fetching Medium articles:', err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
-
-  const cleanText = (str: string) => {
-    if (!str) return '';
-    let cleaned = str.trim();
-
-    // Strip CDATA if present
-    if (cleaned.startsWith('<![CDATA[')) {
-      cleaned = cleaned.substring(9);
-    }
-    if (cleaned.endsWith(']]>')) {
-      cleaned = cleaned.substring(0, cleaned.length - 3);
-    }
-
-    // Strip any HTML tags that might remain
-    cleaned = cleaned.replace(/<[^>]*>/g, '');
-
-    // Decode common HTML entities
-    const htmlEntities: { [key: string]: string } = {
-      '&#x2019;': "'",
-      '&#x2018;': "'",
-      '&#x201c;': '"',
-      '&#x201d;': '"',
-      '&#x200a;': ' ',
-      '&#x200A;': ' ',
-      '&#x2014;': '—',
-      '&#x2026;': '…',
-      '&rsquo;': "'",
-      '&lsquo;': "'",
-      '&ldquo;': '"',
-      '&rdquo;': '"',
-      '&ndash;': '-',
-      '&mdash;': '—',
-      '&hellip;': '…',
-      '&amp;': '&',
-      '&lt;': '<',
-      '&gt;': '>',
-      '&quot;': '"',
-      '&apos;': "'",
-    };
-
-    // Replace hex/decimal code entities
-    cleaned = cleaned.replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => {
-      return String.fromCharCode(parseInt(hex, 16));
-    });
-    cleaned = cleaned.replace(/&#([0-9]+);/g, (_, dec) => {
-      return String.fromCharCode(parseInt(dec, 10));
-    });
-
-    // Replace named entities
-    Object.keys(htmlEntities).forEach((entity) => {
-      cleaned = cleaned.replace(new RegExp(entity, 'g'), htmlEntities[entity]);
-    });
-
-    return cleaned.trim();
-  };
+  const featured = articles.find((a) => a.link.includes(FEATURED_SLUG));
+  const rest = articles.filter((a) => a !== featured);
 
   const formatDate = (dateString: string) => {
     try {
@@ -150,9 +87,28 @@ const Blog = () => {
         </motion.div>
       ) : articles.length > 0 ? (
         <div className="space-y-6">
-          {articles.map((article, index) => (
+          {featured && (
             <motion.a
-              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              href={featured.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block group bg-surface border-2 border-accent p-8 md:p-10 rounded-3xl shadow-sm transition-all duration-300"
+            >
+              <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-xs mb-4">Featured</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-textPrimary group-hover:text-accent transition-colors tracking-tight mb-5">
+                {featured.title}
+              </h2>
+              <PostMeta article={featured} formatDate={formatDate} />
+              <ReadOnMedium />
+            </motion.a>
+          )}
+
+          {rest.map((article, index) => (
+            <motion.a
+              key={article.link}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -162,32 +118,11 @@ const Blog = () => {
               rel="noopener noreferrer"
               className="block group bg-surface border border-border p-8 rounded-2xl shadow-sm hover:border-accent transition-all duration-300"
             >
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                <h2 className="text-2xl font-bold text-textPrimary group-hover:text-accent transition-colors flex-1 line-clamp-1">
-                  {cleanText(article.title)}
-                </h2>
-                <div className="flex items-center gap-2 text-textSecondary text-sm shrink-0 font-medium bg-elevated px-4 py-1.5 rounded-full border border-border">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  {formatDate(article.pubDate)}
-                </div>
-              </div>
-
-              <p className="text-textSecondary mb-6 leading-relaxed line-clamp-2 md:line-clamp-3">
-                {cleanText(article.description)}
-              </p>
-
-              {article.categories.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {article.categories.slice(0, 3).map((category, catIndex) => (
-                    <span
-                      key={catIndex}
-                      className="px-3 py-1 bg-elevated text-textSecondary border border-border rounded-lg text-xs font-medium"
-                    >
-                      {cleanText(category)}
-                    </span>
-                  ))}
-                </div>
-              )}
+              <h2 className="text-2xl font-bold text-textPrimary group-hover:text-accent transition-colors line-clamp-2 mb-4">
+                {article.title}
+              </h2>
+              <PostMeta article={article} formatDate={formatDate} />
+              <ReadOnMedium />
             </motion.a>
           ))}
         </div>

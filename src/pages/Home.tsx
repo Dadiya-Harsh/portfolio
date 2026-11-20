@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { loadCaseStudyRegistry } from '../utils/caseStudyLoader';
 import { experienceYears } from '../utils/experience';
+import { useMediumPosts } from '../hooks/useMediumPosts';
 import { siteConfig } from '../config/site';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import {
@@ -33,21 +34,7 @@ const StatCard = ({ value, sub, delay }: {
   </motion.div>
 );
 
-// Recent writing. Temporary local fetch, Phase 5 swaps it for the shared useMediumPosts hook.
-interface MediumPost {
-  title: string;
-  link: string;
-  pubDate: string;
-  publication?: string;
-}
-
-const decodeEntities = (str: string) =>
-  str
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-    .replace(/&#([0-9]+);/g, (_, dec) => String.fromCharCode(parseInt(dec, 10)))
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
-
+// Recent writing date, e.g. "Oct 2025"
 const formatPostDate = (dateString: string) => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return '';
@@ -56,39 +43,13 @@ const formatPostDate = (dateString: string) => {
 
 const Home = () => {
   const [caseStudies, setCaseStudies] = useState<CaseStudyMeta[]>([]);
-  const [posts, setPosts] = useState<MediumPost[]>([]);
+  const { posts: allPosts } = useMediumPosts();
+  const posts = allPosts.slice(0, 3);
 
   useEffect(() => {
     loadCaseStudyRegistry()
       .then(data => setCaseStudies(data.slice(0, 2)))
       .catch(() => setCaseStudies([]));
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/medium')
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch posts');
-        return res.json();
-      })
-      .then(data => {
-        // Dedupe by title so cross-posted articles don't show twice
-        const seen = new Set<string>();
-        const unique = (data.articles as MediumPost[])
-          .map(a => ({ ...a, title: decodeEntities(a.title) }))
-          .filter(a => {
-            const key = a.title.toLowerCase();
-            if (seen.has(key)) return false;
-            seen.add(key);
-            return true;
-          });
-        if (!cancelled) setPosts(unique.slice(0, 3));
-      })
-      .catch(() => {
-        // Section hides itself when the feed is down
-        if (!cancelled) setPosts([]);
-      });
-    return () => { cancelled = true; };
   }, []);
 
   return (
@@ -330,7 +291,7 @@ const Home = () => {
               >
                 <span className="font-semibold text-textPrimary text-[17px] leading-snug">{post.title}</span>
                 <span className="text-sm text-textSecondary shrink-0">
-                  {[post.publication, formatPostDate(post.pubDate)].filter(Boolean).join(' · ')}
+                  {formatPostDate(post.pubDate)}
                 </span>
               </a>
             ))}
