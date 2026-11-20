@@ -89,6 +89,13 @@ const loadMediumPosts = (): Promise<MediumPost[]> => {
           });
         });
 
+        // Newest first. A date that can't be read goes last.
+        const time = (post: MediumPost) => {
+          const t = Date.parse(post.pubDate);
+          return Number.isNaN(t) ? 0 : t;
+        };
+        posts.sort((a, b) => time(b) - time(a));
+
         cachedPosts = posts;
         return posts;
       })

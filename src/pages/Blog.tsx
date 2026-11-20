@@ -4,7 +4,7 @@ import type { MediumPost } from '../hooks/useMediumPosts';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMeta } from '../routes';
 
-// The first post whose link contains this gets the big featured card
+// The first post whose link contains this gets the big featured card (posts are newest first, the card keeps its place in that order)
 const FEATURED_SLUG = 'model-context-protocol';
 
 const ReadOnMedium = () => (
@@ -33,7 +33,6 @@ const Blog = () => {
   const { posts: articles, loading, error } = useMediumPosts();
 
   const featured = articles.find((a) => a.link.includes(FEATURED_SLUG));
-  const rest = articles.filter((a) => a !== featured);
 
   const formatDate = (dateString: string) => {
     try {
@@ -90,8 +89,9 @@ const Blog = () => {
         </motion.div>
       ) : articles.length > 0 ? (
         <div className="space-y-6">
-          {featured && (
+          {articles.map((article, index) => article === featured ? (
             <motion.a
+              key={article.link}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -107,9 +107,7 @@ const Blog = () => {
               <PostMeta article={featured} formatDate={formatDate} />
               <ReadOnMedium />
             </motion.a>
-          )}
-
-          {rest.map((article, index) => (
+          ) : (
             <motion.a
               key={article.link}
               initial={{ opacity: 0, y: 20 }}
