@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { loadCaseStudyRegistry, loadCaseStudyContent } from '../utils/caseStudyLoader';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import MarkdownRenderer from '../components/MarkdownRenderer';
+import NotFound from './NotFound';
 
 
 const CaseStudy = () => {
@@ -68,20 +69,9 @@ const CaseStudy = () => {
         );
     }
 
-    // Error / not found
+    // Unknown id (or the study failed to load): same 404 page as every other bad URL
     if (error || !meta) {
-        return (
-            <div className="max-w-4xl mx-auto py-20 px-6 text-center">
-                <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-bold mb-12 transition-colors group">
-                    <ArrowLeftIcon className="w-5 h-5 mr-2 group-hover:-translate-x-2 transition-transform" />
-                    Back to Case Studies
-                </Link>
-                <div className="bg-surface border border-border/50 shadow-xl rounded-3xl p-16">
-                    <h1 className="text-3xl font-extrabold text-textPrimary mb-4">Case Study Not Found</h1>
-                    <p className="text-textSecondary">The case study you're looking for doesn't exist or has been removed.</p>
-                </div>
-            </div>
-        );
+        return <NotFound />;
     }
 
     // Coming Soon state

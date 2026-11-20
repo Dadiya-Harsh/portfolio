@@ -8,6 +8,7 @@ import Blog from '../pages/Blog';
 import Resume from '../pages/Resume';
 import CaseStudy from '../pages/CaseStudy';
 import CaseStudiesIndex from '../pages/CaseStudiesIndex';
+import NotFound from '../pages/NotFound';
 import PageTransition from './PageTransition';
 
 const AnimatedRoutes = () => {
@@ -24,6 +25,7 @@ const AnimatedRoutes = () => {
                 <Route path="/resume" element={<PageTransition><Resume /></PageTransition>} />
                 <Route path="/case-studies" element={<PageTransition><CaseStudiesIndex /></PageTransition>} />
                 <Route path="/case-studies/:id" element={<PageTransition><CaseStudy /></PageTransition>} />
+                <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
             </Routes>
         </AnimatePresence>
     );
