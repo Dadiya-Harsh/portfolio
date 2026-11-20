@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AnimatedRoutes from './components/AnimatedRoutes';
 import { useState, useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -28,6 +29,7 @@ function App() {
   };
 
   return (
+    <MotionConfig reducedMotion="user">
     <Router>
       <div className="min-h-screen bg-page text-textPrimary antialiased transition-colors duration-300 flex flex-col">
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
@@ -37,6 +39,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </MotionConfig>
   );
 }
 
