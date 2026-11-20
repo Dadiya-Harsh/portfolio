@@ -4,7 +4,7 @@ import { ArrowLeftIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import { loadCaseStudyRegistry, loadCaseStudyContent } from '../utils/caseStudyLoader';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
-import MarkdownRenderer from '../components/MarkdownRenderer';
+import CaseStudyBody, { splitCaseStudy } from '../components/CaseStudyBody';
 import NotFound from './NotFound';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { caseStudyTitle } from '../routes';
@@ -121,109 +121,74 @@ const CaseStudy = () => {
         );
     }
 
-    // Published — full content
+    // Published: full content
+    const { headline, sections } = splitCaseStudy(content);
+    const statusLabel = meta.status === 'published' ? 'In production' : 'Write-up in progress';
+
     return (
-        <div className="min-h-screen bg-page py-6 lg:py-16 px-3 sm:px-6 md:px-10 lg:px-12 transition-colors duration-300">
+        <div className="min-h-screen bg-page px-6 transition-colors duration-300">
             {/* Minimalist Top Edge Scroll Progress Bar */}
             <motion.div
                 className="fixed top-0 left-0 right-0 h-1 bg-accent z-50 origin-left"
                 style={{ scaleX }}
             />
-            <div className="max-w-[1300px] mx-auto mb-6 px-1">
-                <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-medium transition-all group">
-                    <ArrowLeftIcon className="w-5 h-5 mr-3 group-hover:-translate-x-2 transition-transform" />
-                    Back to Case Studies
-                </Link>
-            </div>
-
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
+            <motion.article
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-[1300px] mx-auto bg-surface rounded-[2rem] md:rounded-[3rem] shadow-sm overflow-hidden border border-border/40"
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-[820px] mx-auto pt-10 md:pt-14 pb-24"
             >
-                {/* HERO SECTION (MOCKUP STYLE) */}
-                <div className="relative p-1 sm:p-8 md:p-12 lg:p-16 lg:pb-12 bg-surface rounded-t-[2rem] md:rounded-t-[3rem]">
-                    <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center bg-elevated/40 rounded-[1.5rem] md:rounded-3xl p-4 sm:p-6 md:p-8 border border-border">
+                <Link to="/case-studies" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accentHover transition-colors">
+                    <ArrowLeftIcon className="w-4 h-4" aria-hidden="true" />
+                    All case studies
+                </Link>
 
-                        {/* Left: Text & Badges */}
-                        <div className="flex flex-col justify-center">
-                            <span className="text-accent font-bold text-xs md:text-sm uppercase tracking-[0.15em] mb-4">
-                                Case Study
-                            </span>
-                            <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-extrabold text-textPrimary leading-[1.05] tracking-tight mb-6 uppercase">
-                                {meta.title}
-                            </h1>
-                            {meta.subtitle && (
-                                <p className="text-xl md:text-2xl text-textSecondary font-medium mb-10 max-w-xl leading-snug">
-                                    {meta.subtitle}
-                                </p>
-                            )}
-
-                            {/* Role / team / duration / status */}
-                            {(meta.role || meta.team || meta.duration || meta.status) && (
-                                <dl className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-border">
-                                    {[
-                                        { label: 'Role', value: meta.role },
-                                        { label: 'Team', value: meta.team },
-                                        { label: 'Duration', value: meta.duration },
-                                        { label: 'Status', value: meta.status === 'published' ? 'In production' : 'Write-up in progress' },
-                                    ].filter(item => item.value).map(item => (
-                                        <div key={item.label}>
-                                            <dt className="text-[11px] font-bold text-textSecondary uppercase tracking-widest mb-1">{item.label}</dt>
-                                            <dd className="text-sm font-bold text-textPrimary">{item.value}</dd>
-                                        </div>
-                                    ))}
-                                </dl>
-                            )}
-
-                            {/* Badges container */}
-                            <div className="flex flex-wrap gap-4 mt-2">
-                                {meta.techStack && (
-                                    <div className="px-5 py-2.5 bg-surface rounded-full border border-border shadow-sm flex items-center">
-                                        <span className="text-[11px] font-bold text-textSecondary uppercase tracking-widest mr-2">Tech Stack:</span>
-                                        <span className="text-[13px] font-bold text-textPrimary">{meta.techStack}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Right: Feature Image */}
-                        {meta.heroImage && (
-                            <div className="relative h-[250px] sm:h-[350px] lg:h-[450px] w-full rounded-2xl md:rounded-3xl overflow-hidden bg-surface shadow-xl border border-border/30 max-w-[600px] ml-auto">
-                                <img
-                                    src={meta.heroImage}
-                                    alt="Architecture Illustration"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                        )}
-                    </div>
+                <div className="flex flex-wrap gap-2 mt-7">
+                    <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full bg-accent/10 text-accent">{statusLabel}</span>
+                    {meta.type && (
+                        <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full bg-elevated text-textSecondary">{meta.type}</span>
+                    )}
                 </div>
 
-                {/* CONTENT SECTION (Single Column Full Width) */}
-                <div className="p-4 sm:p-8 md:p-12 lg:p-16 pt-0 lg:pt-8 w-full">
-                    {/* MAIN CONTENT TEXT */}
+                <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-textPrimary">
+                    {headline || meta.title}
+                </h1>
+                {meta.subtitle && (
+                    <p className="mt-4 text-lg md:text-xl leading-relaxed text-textSecondary">{meta.subtitle}</p>
+                )}
 
-                    <article className="mt-8 md:mt-4 w-full max-w-none">
-                        <MarkdownRenderer content={content} />
-                    </article>
+                {(meta.role || meta.team || meta.duration) && (
+                    <dl className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 rounded-2xl border border-border bg-surface px-6 py-5 text-sm">
+                        {[
+                            { label: 'My role', value: meta.role },
+                            { label: 'Team', value: meta.team },
+                            { label: 'Duration', value: meta.duration },
+                            { label: 'Status', value: statusLabel },
+                        ].filter(item => item.value).map(item => (
+                            <div key={item.label}>
+                                <dt className="text-textSecondary">{item.label}</dt>
+                                <dd className="mt-1 font-semibold text-textPrimary">{item.value}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                )}
 
-                    {/* Bottom navigation */}
-                    <div className="mt-20 pt-10 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-6">
-                        <Link to="/case-studies" className="inline-flex items-center text-textSecondary hover:text-accent font-medium transition-colors group">
-                            <ArrowLeftIcon className="w-5 h-5 mr-3 group-hover:-translate-x-2 transition-transform" />
-                            All Case Studies
-                        </Link>
-                        <Link
-                            to={`/contact?subject=Questions about ${meta.title}`}
-                            className="px-8 py-4 bg-textPrimary text-page hover:scale-[1.02] active:scale-95 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl"
-                        >
-                            Ask me about this system
-                        </Link>
-                    </div>
+                <CaseStudyBody sections={sections} />
+
+                {/* Bottom navigation */}
+                <div className="mt-14 pt-7 border-t border-border flex flex-wrap items-center justify-between gap-4">
+                    <Link to="/case-studies" className="inline-flex items-center gap-2 font-semibold text-accent hover:text-accentHover transition-colors">
+                        <ArrowLeftIcon className="w-4 h-4" aria-hidden="true" />
+                        All case studies
+                    </Link>
+                    <Link
+                        to={`/contact?subject=Questions about ${meta.title}`}
+                        className="font-semibold text-accent hover:text-accentHover transition-colors"
+                    >
+                        Ask me about this system →
+                    </Link>
                 </div>
-            </motion.div>
+            </motion.article>
         </div>
     );
 };
