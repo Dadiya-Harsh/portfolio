@@ -80,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const xml = await response.text();
-    const articles = parseRSSFeed(xml).slice(0, 6);
+    const articles = parseRSSFeed(xml).slice(0, 10);
 
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
     return res.status(200).json({ articles });
