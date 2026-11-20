@@ -1,51 +1,42 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { siteConfig } from '../config/site';
 
 const Projects = () => {
-  const customProjects = [
+  // Recent work comes from site.ts so it matches the Home page.
+  // The section hides itself when this list is empty.
+  const recentWork = siteConfig.secureWorkspace.show ? [siteConfig.secureWorkspace] : [];
+
+  const earlierProjects = [
     {
-      title: "Cure Now — Intelligent Medical Chatbot",
-      description: "An AI-powered medical chatbot leveraging Google's Gemini AI for accurate health information delivery. Features vector similarity search using Pinecone for efficient medical knowledge base retrieval.",
-      technologies: ["Python", "Flask", "Gemini AI", "LangChain", "Pinecone"],
+      title: "Cure Now",
+      description: "An AI-powered medical chatbot using Google's Gemini AI, with Pinecone for knowledge base search.",
       github: "https://github.com/Dadiya-Harsh/cure-now/",
-      category: "Healthcare AI",
-      accent: "from-orange-500/20 to-transparent",
-      badgeBg: "bg-orange-500/15 text-orange-400 border-orange-500/30"
     },
     {
       title: "SQL Agent Tool",
-      description: "Built intelligent SQL query agent that converts natural language queries into executable SQL statements. Integrated multiple LLMs, robust database schema reflection and safe testing.",
-      technologies: ["Python", "SQLAlchemy", "Multiple LLMs", "PostgreSQL"],
+      description: "An agent that turns natural language questions into SQL queries.",
       github: "https://github.com/Dadiya-Harsh/sql-tool/",
-      category: "AI Agents",
-      accent: "from-blue-500/20 to-transparent",
-      badgeBg: "bg-blue-500/15 text-blue-400 border-blue-500/30"
     },
     {
-      title: "Model Context Protocol (MCP) Implementation",
-      description: "Implemented comprehensive Model Context Protocol for seamless LLM communication. Developed multiple transport layers to handle async inputs streams.",
-      technologies: ["Python", "Async Programming", "LLM Integration", "CLI Tools"],
+      title: "MCP Implementation",
+      description: "A Model Context Protocol implementation for LLM communication, with multiple transport layers.",
       github: "https://github.com/Dadiya-Harsh/MCP-DEMO/",
-      category: "MCP & Tooling",
-      accent: "from-purple-500/20 to-transparent",
-      badgeBg: "bg-purple-500/15 text-purple-400 border-purple-500/30"
     },
     {
-      title: "Air Quality Index (AQI) Monitoring",
-      description: "Developed an intelligent AQI monitoring system using advanced data science techniques. Analyzed multiple air quality parameters giving real time historical trends.",
-      technologies: ["Python", "Data Science", "Visualization", "Real-time Analytics"],
+      title: "AQI Monitoring",
+      description: "An air quality monitoring system with real time and historical trends.",
       github: "https://github.com/Dadiya-Harsh/aqi-monitoring",
-      category: "Data Science",
-      accent: "from-emerald-500/20 to-transparent",
-      badgeBg: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
     },
   ];
 
   const ossContributions = [
     {
-      title: "OpenMontage Contribution — 50K+ Stars",
-      description: "Contributed a critical fix to OpenMontage, a 50k+ star AGPL-3.0 agent framework, resolving a skill-loading  bug caused by missing YAML frontmatter and casing mismatches.",
+      title: "Found and reported a startup bug in OpenMontage",
+      description: "OpenMontage is an open-source agent framework with 81K stars. One of its skills was skipped on startup because its SKILL.md had no YAML frontmatter, and the video-toolkit skill was named in two different ways (kebab-case and snake_case). I traced both causes and reported them. The issue is closed.",
       technologies: ["Python", "YAML", "Agent Frameworks"],
-      github: "https://github.com/calesthio/OpenMontage/issues/192",
+      github: "https://github.com/OpenMontageInc/OpenMontage/issues/192",
+      linkLabel: "View issue #192",
     }
   ];
 
@@ -62,10 +53,55 @@ const Projects = () => {
           Projects & Code
         </h1>
         <p className="text-lg text-textSecondary leading-relaxed">
-          A selection of personal projects, data science research, and open-source contributions. For proprietary production systems, see{' '}
-          <a href="/about" className="text-accent hover:underline font-medium">my professional experience</a>.
+          A selection of personal projects, data science research, and open-source contributions. For proprietary production systems, see my{' '}
+          <Link to="/case-studies" className="text-accent hover:underline font-medium">case studies</Link>.
         </p>
       </motion.section>
+
+      {/* Recent Work */}
+      {recentWork.length > 0 && (
+        <section>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-xs font-extrabold tracking-[0.2em] text-textSecondary uppercase mb-6"
+          >
+            Recent Work
+          </motion.p>
+
+          {recentWork.map((project, i) => (
+            <motion.div
+              key={project.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="bg-surface border border-border rounded-2xl p-7"
+            >
+              <span className="inline-block text-xs font-bold tracking-widest uppercase bg-accent/15 text-accent border border-accent/30 px-3 py-1 rounded-full mb-4">
+                In progress · Open source
+              </span>
+              <h3 className="text-xl md:text-2xl font-bold text-textPrimary mb-3">
+                {project.name}
+              </h3>
+              <p className="text-sm text-textSecondary leading-relaxed max-w-2xl">
+                {project.description}
+              </p>
+              {project.repoUrl && (
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-5 text-sm font-semibold text-accent hover:underline"
+                >
+                  View on GitHub →
+                </a>
+              )}
+            </motion.div>
+          ))}
+        </section>
+      )}
 
       {/* Open Source Contributions */}
       <section>
@@ -118,12 +154,15 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
+              <p className="mt-5 text-sm font-semibold text-accent">
+                {project.linkLabel} →
+              </p>
             </div>
           </motion.a>
         ))}
       </section>
 
-      {/* Personal Work */}
+      {/* Earlier Projects */}
       <section>
         <motion.p
           initial={{ opacity: 0 }}
@@ -131,11 +170,11 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-xs font-extrabold tracking-[0.2em] text-textSecondary uppercase mb-6"
         >
-          Personal Work
+          Earlier Projects
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {customProjects.map((project, i) => (
+        <div className="border-t border-border">
+          {earlierProjects.map((project, i) => (
             <motion.a
               key={project.title}
               href={project.github}
@@ -145,37 +184,17 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="block group relative bg-surface border border-border rounded-2xl p-6 hover:border-accent/60 transition-all duration-300 overflow-hidden"
+              className="group flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 py-4 border-b border-border"
             >
-              {/* Subtle gradient accent per card */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} pointer-events-none`} />
-
-              <div className="relative z-10">
-                <div className="flex justify-between items-start mb-5">
-                  <span className={`text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border ${project.badgeBg}`}>
-                    {project.category}
-                  </span>
-                  <svg className="w-5 h-5 text-textSecondary group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-textPrimary mb-2 group-hover:text-accent transition-colors leading-snug">
-                  {project.title}
-                </h3>
-                <p className="text-sm text-textSecondary leading-relaxed mb-5">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-2.5 py-0.5 bg-elevated text-textSecondary rounded-full text-xs font-medium border border-border"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <h3 className="sm:w-48 shrink-0 font-bold text-textPrimary group-hover:text-accent transition-colors">
+                {project.title}
+              </h3>
+              <p className="flex-1 text-sm text-textSecondary leading-relaxed">
+                {project.description}
+              </p>
+              <span className="text-sm font-semibold text-textSecondary group-hover:text-accent transition-colors whitespace-nowrap">
+                GitHub →
+              </span>
             </motion.a>
           ))}
         </div>
