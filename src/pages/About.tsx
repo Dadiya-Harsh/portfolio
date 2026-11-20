@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import { experienceYears } from '../utils/experience';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const techPills = [
   { label: 'Python', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg' },
@@ -17,6 +19,7 @@ const techPills = [
 ];
 
 const About = () => {
+  useDocumentMeta(getRouteMeta('/about'));
   const [showEarlier, setShowEarlier] = useState(false);
 
   return (

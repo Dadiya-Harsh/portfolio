@@ -6,6 +6,8 @@ import { loadCaseStudyRegistry, loadCaseStudyContent } from '../utils/caseStudyL
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import NotFound from './NotFound';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { caseStudyTitle } from '../routes';
 
 
 const CaseStudy = () => {
@@ -14,6 +16,13 @@ const CaseStudy = () => {
     const [content, setContent] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
+    // While loading, use a plain title. For an unknown id, pass null so NotFound sets its own.
+    useDocumentMeta(
+        meta
+            ? { title: caseStudyTitle(meta.title), description: meta.desc }
+            : loading ? { title: 'Case Study · Harsh Dadiya' } : null
+    );
 
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {

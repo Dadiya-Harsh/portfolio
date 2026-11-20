@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { loadCaseStudyRegistry } from '../utils/caseStudyLoader';
 import { experienceYears } from '../utils/experience';
 import { useMediumPosts } from '../hooks/useMediumPosts';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 import { siteConfig } from '../config/site';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import {
@@ -42,6 +44,7 @@ const formatPostDate = (dateString: string) => {
 };
 
 const Home = () => {
+  useDocumentMeta(getRouteMeta('/'));
   const [caseStudies, setCaseStudies] = useState<CaseStudyMeta[]>([]);
   const { posts: allPosts } = useMediumPosts();
   const posts = allPosts.slice(0, 3);

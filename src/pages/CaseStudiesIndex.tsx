@@ -4,8 +4,11 @@ import { ArrowRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import { loadCaseStudyRegistry } from '../utils/caseStudyLoader';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const CaseStudiesIndex = () => {
+  useDocumentMeta(getRouteMeta('/case-studies'));
     const [studies, setStudies] = useState<CaseStudyMeta[]>([]);
     const [loading, setLoading] = useState(true);
 

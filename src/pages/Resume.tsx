@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeftIcon, ArrowDownTrayIcon, DocumentTextIcon, DocumentIcon } from '@heroicons/react/24/outline';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const Resume = () => {
+  useDocumentMeta(getRouteMeta('/resume'));
   const resumePdfPath = '/resume/Harsh_Dadiya_Resume.pdf';
   const resumeDocxPath = '/resume/Harsh_Dadiya_Resume.docx';
 

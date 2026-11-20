@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../config/site';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 const Projects = () => {
+  useDocumentMeta(getRouteMeta('/projects'));
   // Recent work comes from site.ts so it matches the Home page.
   // The section hides itself when this list is empty.
   const recentWork = siteConfig.secureWorkspace.show ? [siteConfig.secureWorkspace] : [];

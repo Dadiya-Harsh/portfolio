@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { notFoundMeta } from '../routes';
 
-// TODO (Phase 7): call the document meta hook here with noindex, so search engines skip this page.
 const NotFound = () => {
+  useDocumentMeta({ ...notFoundMeta, noindex: true });
   return (
     <div className="flex-grow flex items-center justify-center px-4 py-16">
       <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-5">

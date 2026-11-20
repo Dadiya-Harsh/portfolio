@@ -1,0 +1,45 @@
+{
+  "siteUrl": "https://www.harshdadiya.in",
+  "caseStudyTitleSuffix": " · Case Study · Harsh Dadiya",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Harsh Dadiya · AI Engineer",
+      "description": "Associate AI Engineer based in Ahmedabad. I build voice agents, RAG pipelines and MCP-based agent workflows in Python, and get them running in production."
+    },
+    {
+      "path": "/about",
+      "title": "About · Harsh Dadiya",
+      "description": "An AI Engineer focused on shipping production LLM systems in Python and contributing to open source like OpenMontage."
+    },
+    {
+      "path": "/projects",
+      "title": "Projects · Harsh Dadiya",
+      "description": "A selection of personal projects, data science research, and open-source contributions."
+    },
+    {
+      "path": "/case-studies",
+      "title": "Case Studies · Harsh Dadiya",
+      "description": "Write-ups of AI systems I've worked on: the problem, the architecture, what was hard and what I'd change."
+    },
+    {
+      "path": "/blog",
+      "title": "Writing · Harsh Dadiya",
+      "description": "Articles on AI, Machine Learning & Data Science."
+    },
+    {
+      "path": "/contact",
+      "title": "Contact · Harsh Dadiya",
+      "description": "Have a project in mind? Want to collaborate? I'd love to hear from you."
+    },
+    {
+      "path": "/resume",
+      "title": "Resume · Harsh Dadiya",
+      "description": "View, preview, and download my professional resume in your preferred format."
+    }
+  ],
+  "notFound": {
+    "title": "Page not found · Harsh Dadiya",
+    "description": "This page doesn't exist."
+  }
+}

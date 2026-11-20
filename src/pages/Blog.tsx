@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useMediumPosts } from '../hooks/useMediumPosts';
 import type { MediumPost } from '../hooks/useMediumPosts';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMeta } from '../routes';
 
 // The first post whose link contains this gets the big featured card
 const FEATURED_SLUG = 'model-context-protocol';
@@ -27,6 +29,7 @@ const PostMeta = ({ article, formatDate }: { article: MediumPost; formatDate: (d
 );
 
 const Blog = () => {
+  useDocumentMeta(getRouteMeta('/blog'));
   const { posts: articles, loading, error } = useMediumPosts();
 
   const featured = articles.find((a) => a.link.includes(FEATURED_SLUG));
