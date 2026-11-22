@@ -27,7 +27,7 @@ Agents reach external services through local Model Context Protocol (MCP) server
 
 ---
 
-## Technical Hurdles & Trade-offs
+## What Was Hard
 
 ### Challenge 1: AI Hallucination vs Deterministic Rendering
 **The Hurdle:** Video needs exact frame timings, and language models aren't good at precise timecodes and layout.
@@ -43,7 +43,7 @@ Agents reach external services through local Model Context Protocol (MCP) server
 
 ---
 
-## Results & Impact
+## Where It Ended Up
 
 - **End-to-end automation:** One agent pipeline now covers the whole path from concept to MP4, instead of several tools with manual handoffs.
 - **Reusable setup:** Channel configurations are parameterized, so brand styling and target duration are repeatable.
