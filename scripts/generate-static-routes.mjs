@@ -105,10 +105,9 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="htt
 // content.json, llms.txt, llms-full.txt
 // ---------------------------------------------------------------------------
 
-// The contract wants the case study headings to be the five below. generative-video.md
-// still has two older headings until phase P3 renames them, so for now a bad heading is
-// printed as a warning. P3 flips this to true.
-const HEADINGS_ARE_ERRORS = false;
+// The contract wants the case study headings to be the five below. A heading that isn't
+// one of them fails the build. (Set this to false to print warnings instead.)
+const HEADINGS_ARE_ERRORS = true;
 const ALLOWED_HEADINGS = ['Overview', 'The Problem', 'System Architecture', 'What Was Hard', 'Where It Ended Up'];
 
 const readJson = (rel) => {
