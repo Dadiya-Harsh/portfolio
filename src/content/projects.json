@@ -1,0 +1,45 @@
+{
+  "recent": [
+    {
+      "title": "SecureWorkspace",
+      "description": "An open-source encrypted backup and sync app. Python core, Google Drive storage, Windows, Ubuntu and Android.",
+      "links": [
+        { "label": "View on GitHub", "url": "https://github.com/Dadiya-Harsh/SecureWorkspace" }
+      ]
+    }
+  ],
+  "openSource": [
+    {
+      "title": "Found and fixed a startup bug in OpenMontage",
+      "description": "OpenMontage is an open-source agent framework with {repoStars} stars. One of its skills was skipped on startup because its SKILL.md had no YAML frontmatter, and the video-toolkit skill was named in two different ways (kebab-case and snake_case). I reported it, then sent a fix that got merged.",
+      "technologies": ["Python", "YAML", "Agent Frameworks"],
+      "repoStars": "81K",
+      "links": [
+        { "label": "View issue #192", "url": "https://github.com/OpenMontageInc/OpenMontage/issues/192" },
+        { "label": "View PR #191", "url": "https://github.com/OpenMontageInc/OpenMontage/pull/191" }
+      ]
+    }
+  ],
+  "earlier": [
+    {
+      "title": "Cure Now",
+      "description": "An AI-powered medical chatbot using Google's Gemini AI, with Pinecone for knowledge base search.",
+      "links": [{ "label": "GitHub", "url": "https://github.com/Dadiya-Harsh/cure-now/" }]
+    },
+    {
+      "title": "SQL Agent Tool",
+      "description": "An agent that turns natural language questions into SQL queries.",
+      "links": [{ "label": "GitHub", "url": "https://github.com/Dadiya-Harsh/sql-tool/" }]
+    },
+    {
+      "title": "MCP Implementation",
+      "description": "A Model Context Protocol implementation for LLM communication, with multiple transport layers.",
+      "links": [{ "label": "GitHub", "url": "https://github.com/Dadiya-Harsh/MCP-DEMO/" }]
+    },
+    {
+      "title": "AQI Monitoring",
+      "description": "An air quality monitoring system with real time and historical trends.",
+      "links": [{ "label": "GitHub", "url": "https://github.com/Dadiya-Harsh/aqi-monitoring" }]
+    }
+  ]
+}

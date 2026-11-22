@@ -1,0 +1,145 @@
+{
+  "name": "Harsh Dadiya",
+  "title": "Associate AI Engineer",
+  "location": "Ahmedabad",
+  "careerStart": "2025-01",
+  "openToRoles": true,
+  "openToRolesLabel": "Open to AI Engineer roles",
+  "headline": "I ship production AI systems.",
+  "summary": "Associate AI Engineer based in Ahmedabad. I build voice agents, RAG pipelines and MCP-based agent workflows in Python, and get them running in production.",
+  "tagline": "Building useful AI for a better tomorrow.",
+  "focus": [
+    {
+      "title": "Voice AI",
+      "description": "Real-time voice agents with tool use",
+      "href": "/case-studies/voice-agent"
+    },
+    {
+      "title": "RAG pipelines",
+      "description": "Ingest, index and retrieve business documents"
+    },
+    {
+      "title": "MCP servers",
+      "description": "Exposing tools and data to AI agents",
+      "href": "/projects"
+    },
+    {
+      "title": "Multi-agent workflows",
+      "description": "Specialized agents with review checkpoints",
+      "href": "/case-studies/generative-video"
+    },
+    {
+      "title": "AWS deployment",
+      "description": "Lambda, ECS, S3, RDS, etc."
+    },
+    {
+      "title": "Chat systems",
+      "description": "Domain-specific assistants for teams and customers"
+    }
+  ],
+  "stats": [
+    {
+      "value": "OpenMontage",
+      "label": "open-source contributor · {repoStars}★ repo"
+    },
+    {
+      "value": "500+",
+      "label": "documents indexed in RAG systems"
+    }
+  ],
+  "photo": "/images/profile.jpg",
+  "email": "harshdadiya@gmail.com",
+  "links": {
+    "github": "https://github.com/Dadiya-Harsh",
+    "linkedin": "https://www.linkedin.com/in/harsh-dadiya/",
+    "medium": "https://medium.com/@harshdadiya",
+    "resume": "/resume",
+    "resumePdf": "/resume/Harsh_Dadiya_Resume.pdf",
+    "resumeDocx": "/resume/Harsh_Dadiya_Resume.docx",
+    "contact": "/contact",
+    "booking": null
+  },
+  "nowBuilding": {
+    "show": true,
+    "name": "SecureWorkspace",
+    "description": "An open-source encrypted backup and sync app. Python core, Google Drive storage, Windows, Ubuntu and Android.",
+    "repoUrl": "https://github.com/Dadiya-Harsh/SecureWorkspace"
+  },
+  "experience": [
+    {
+      "role": "Associate AI Engineer",
+      "org": "Wappnet Systems",
+      "orgUrl": "https://wappnet.com",
+      "period": "July 2025 – Present",
+      "points": [
+        "Building and shipping production-grade AI features and tools.",
+        "Working on generative long-form video pipelines using LLMs, Remotion and AWS.",
+        "Integrated OpenAI Realtime API for voice agents and conversational AI systems.",
+        "Developing RAG pipelines and multi-agent workflows for business applications."
+      ],
+      "tags": ["Python", "FastAPI", "AWS", "OpenAI", "RAG", "Agents"]
+    },
+    {
+      "role": "AI/ML Intern",
+      "org": "Wappnet Systems",
+      "orgUrl": "https://wappnet.com",
+      "period": "Jan 2025 – July 2025",
+      "points": [
+        "Worked on internal AI tools and automation systems.",
+        "Built and evaluated RAG pipelines for document understanding.",
+        "Contributed to generative video workflows and data processing tools.",
+        "Explored OpenAI APIs and multimodal AI capabilities."
+      ],
+      "tags": ["Python", "LangChain", "OpenAI", "RAG", "Computer Vision"]
+    },
+    {
+      "role": "Data Science & ML Intern",
+      "org": "BrainyBeam Info-Tech",
+      "orgUrl": null,
+      "period": "June 2024 – July 2024",
+      "points": [
+        "Developed an intelligent AQI monitoring system.",
+        "Analyzed PM2.5, PM10, and NO2 parameters using Pandas and scikit-learn."
+      ],
+      "tags": ["Python", "Pandas", "scikit-learn"]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Engineering (IT)",
+      "org": "A D Patel Institute of Technology",
+      "period": "2021 – 2025"
+    },
+    {
+      "title": "Minor Degree (IoT)",
+      "org": "A D Patel Institute of Technology",
+      "period": "2022 – 2024"
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Machine Learning Specialization",
+      "issuer": "DeepLearning.AI & Coursera",
+      "date": "2024",
+      "url": "https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S"
+    },
+    {
+      "title": "Code Unnati Innovation Marathon",
+      "issuer": "SAP India & Edunet Foundation",
+      "date": "2024",
+      "url": null
+    },
+    {
+      "title": "SSIP Hackathon Participant",
+      "issuer": "Gujarat State Innovation Program",
+      "date": "2023–2024",
+      "url": null
+    },
+    {
+      "title": "HackerRank Certified",
+      "issuer": "Python & Data Structures",
+      "date": "2023",
+      "url": null
+    }
+  ]
+}
