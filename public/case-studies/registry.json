@@ -26,7 +26,7 @@
         "role": "AI Engineer",
         "team": "2 engineers",
         "duration": "4 months",
-        "desc": "Engineered an autonomous AI video production pipeline using Claude Code and Model Context Protocol (MCP) servers. Automates end-to-end video workflows with human-in-the-loop review checkpoints.",
+        "desc": "An AI pipeline that takes a concept and turns it into a rendered video. I built it with Claude Code and MCP servers, and a person reviews the work at set checkpoints before it moves on.",
         "bullets": [
             "Orchestrated Claude multi-agent pipelines with Remotion (React) for deterministic rendering",
             "Integrated ElevenLabs, Pexels, and Leonardo-AI via custom MCP instances"
