@@ -1,49 +1,17 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { siteConfig } from '../config/site';
+import { profile, projects, resolveStars } from '../content';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMeta } from '../routes';
 
 const Projects = () => {
   useDocumentMeta(getRouteMeta('/projects'));
-  // Recent work comes from site.ts so it matches the Home page.
-  // The section hides itself when this list is empty.
-  const recentWork = siteConfig.secureWorkspace.show ? [siteConfig.secureWorkspace] : [];
-
-  const earlierProjects = [
-    {
-      title: "Cure Now",
-      description: "An AI-powered medical chatbot using Google's Gemini AI, with Pinecone for knowledge base search.",
-      github: "https://github.com/Dadiya-Harsh/cure-now/",
-    },
-    {
-      title: "SQL Agent Tool",
-      description: "An agent that turns natural language questions into SQL queries.",
-      github: "https://github.com/Dadiya-Harsh/sql-tool/",
-    },
-    {
-      title: "MCP Implementation",
-      description: "A Model Context Protocol implementation for LLM communication, with multiple transport layers.",
-      github: "https://github.com/Dadiya-Harsh/MCP-DEMO/",
-    },
-    {
-      title: "AQI Monitoring",
-      description: "An air quality monitoring system with real time and historical trends.",
-      github: "https://github.com/Dadiya-Harsh/aqi-monitoring",
-    },
-  ];
-
-  const ossContributions = [
-    {
-      title: "Found and fixed a startup bug in OpenMontage",
-      description: "OpenMontage is an open-source agent framework with 81K stars. One of its skills was skipped on startup because its SKILL.md had no YAML frontmatter, and the video-toolkit skill was named in two different ways (kebab-case and snake_case). I reported it, then sent a fix that got merged.",
-      technologies: ["Python", "YAML", "Agent Frameworks"],
-      links: [
-        { label: "View issue #192", url: "https://github.com/OpenMontageInc/OpenMontage/issues/192" },
-        { label: "View PR #191", url: "https://github.com/OpenMontageInc/OpenMontage/pull/191" },
-      ],
-    }
-  ];
+  // Text comes from src/content/projects.json.
+  // Recent work follows the "show" switch for Now building on Home (profile.json),
+  // and hides itself when the list is empty.
+  const recentWork = profile.nowBuilding.show ? projects.recent : [];
+  const earlierProjects = projects.earlier;
+  const ossContributions = projects.openSource;
 
   return (
     <div className="max-w-5xl mx-auto px-4 space-y-20 py-12">
@@ -77,7 +45,7 @@ const Projects = () => {
 
           {recentWork.map((project, i) => (
             <motion.div
-              key={project.name}
+              key={project.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -88,19 +56,19 @@ const Projects = () => {
                 In progress · Open source
               </span>
               <h3 className="text-xl md:text-2xl font-bold text-textPrimary mb-3">
-                {project.name}
+                {project.title}
               </h3>
               <p className="text-sm text-textSecondary leading-relaxed max-w-2xl">
                 {project.description}
               </p>
-              {project.repoUrl && (
+              {project.links[0] && (
                 <a
-                  href={project.repoUrl}
+                  href={project.links[0].url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block mt-5 text-sm font-semibold text-accent hover:underline"
                 >
-                  View on GitHub →
+                  {project.links[0].label} →
                 </a>
               )}
             </motion.div>
@@ -141,7 +109,7 @@ const Projects = () => {
                 {project.title}
               </h3>
               <p className="text-sm text-textSecondary leading-relaxed mb-5 max-w-2xl">
-                {project.description}
+                {resolveStars(project.description)}
               </p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech, techIndex) => (
@@ -186,7 +154,7 @@ const Projects = () => {
           {earlierProjects.map((project, i) => (
             <motion.a
               key={project.title}
-              href={project.github}
+              href={project.links[0].url}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
@@ -202,7 +170,7 @@ const Projects = () => {
                 {project.description}
               </p>
               <span className="text-sm font-semibold text-textSecondary group-hover:text-accent transition-colors whitespace-nowrap">
-                GitHub →
+                {project.links[0].label} →
               </span>
             </motion.a>
           ))}

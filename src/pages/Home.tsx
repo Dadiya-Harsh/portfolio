@@ -6,7 +6,7 @@ import { experienceYears } from '../utils/experience';
 import { useMediumPosts } from '../hooks/useMediumPosts';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMeta } from '../routes';
-import { siteConfig } from '../config/site';
+import { profile, resolveStars } from '../content';
 import type { CaseStudyMeta } from '../utils/caseStudyLoader';
 import {
   MicrophoneIcon,
@@ -35,6 +35,23 @@ const StatCard = ({ value, sub, delay }: {
     <div className="text-textSecondary text-sm font-medium mt-1">{sub}</div>
   </motion.div>
 );
+
+// Icon and colours for each "What I work on" card, keyed by the card title in profile.json.
+// Styling only. The words come from profile.focus.
+const focusStyle: Record<string, { icon: typeof MicrophoneIcon; color: string; bg: string }> = {
+  'Voice AI': { icon: MicrophoneIcon, color: 'text-orange-600', bg: 'bg-orange-100 dark:bg-orange-900/30' },
+  'RAG pipelines': { icon: ServerStackIcon, color: 'text-blue-600', bg: 'bg-blue-100 dark:bg-blue-900/30' },
+  'MCP servers': { icon: CpuChipIcon, color: 'text-green-600', bg: 'bg-green-100 dark:bg-green-900/30' },
+  'Multi-agent workflows': { icon: UserGroupIcon, color: 'text-purple-600', bg: 'bg-purple-100 dark:bg-purple-900/30' },
+  'AWS deployment': { icon: CloudIcon, color: 'text-amber-600', bg: 'bg-amber-100 dark:bg-amber-900/30' },
+  'Chat systems': { icon: ChatBubbleLeftRightIcon, color: 'text-pink-600', bg: 'bg-pink-100 dark:bg-pink-900/30' },
+};
+
+// Small label under a card that links somewhere
+const focusHint = (href?: string) => {
+  if (!href) return '';
+  return href.startsWith('/case-studies') ? 'See case study' : 'See projects';
+};
 
 // Recent writing date, e.g. "Oct 2025"
 const formatPostDate = (dateString: string) => {
@@ -66,7 +83,7 @@ const Home = () => {
           transition={{ duration: 0.5 }}
           className="w-48 h-48 md:w-56 md:h-56 shrink-0 rounded-full overflow-hidden border-4 border-surface shadow-2xl relative"
         >
-          <img src="/images/profile.jpg" alt="Harsh Dadiya" className="w-full h-full object-cover" />
+          <img src={profile.photo} alt={profile.name} className="w-full h-full object-cover" />
         </motion.div>
 
         {/* Right: Text Content */}
@@ -79,9 +96,9 @@ const Home = () => {
           >
             <div className="inline-flex items-center gap-2 border border-accent/30 bg-accent/5 text-accent px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
               <span className="w-2 h-2 rounded-full bg-green-500" aria-hidden="true" />
-              Open to AI Engineer roles
+              {profile.openToRolesLabel}
             </div>
-            <span style={{ fontFamily: 'Caveat, cursive' }} className="text-xl text-textSecondary">Building useful AI for a better tomorrow.</span>
+            <span style={{ fontFamily: 'Caveat, cursive' }} className="text-xl text-textSecondary">{profile.tagline}</span>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -89,7 +106,7 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-4xl lg:text-[3.5rem] font-extrabold text-textPrimary leading-[1.1] tracking-tight mb-6"
           >
-            I ship production AI systems.
+            {profile.headline}
           </motion.h1>
 
           <motion.p
@@ -98,7 +115,7 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-xl text-textSecondary font-medium leading-relaxed max-w-xl"
           >
-            Associate AI Engineer based in Ahmedabad. I build voice agents, RAG pipelines and MCP-based agent workflows in Python, and get them running in production.
+            {profile.summary}
           </motion.p>
 
           <motion.div
@@ -121,10 +138,10 @@ const Home = () => {
               Read case studies
             </Link>
             <a
-              href={`mailto:${siteConfig.email}`}
+              href={`mailto:${profile.email}`}
               className="px-2 py-3.5 text-textSecondary hover:text-accent transition-colors font-medium"
             >
-              {siteConfig.email}
+              {profile.email}
             </a>
           </motion.div>
         </div>
@@ -135,24 +152,25 @@ const Home = () => {
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:divide-x divide-border">
             <StatCard value={`${experienceYears()}+ yrs`} sub="building AI in production" delay={0} />
-            <StatCard value="OpenMontage" sub="open-source contributor · 81K★ repo" delay={0.1} />
-            <StatCard value="500+" sub="documents indexed in RAG systems" delay={0.2} />
+            {profile.stats.map((stat, i) => (
+              <StatCard key={stat.value} value={stat.value} sub={resolveStars(stat.label)} delay={(i + 1) * 0.1} />
+            ))}
           </div>
         </div>
       </section>
 
       {/* Now building */}
-      {siteConfig.secureWorkspace.show && (
+      {profile.nowBuilding.show && (
         <section className="container max-w-6xl mx-auto px-4 -mt-14">
           <div className="bg-surface border-2 border-border rounded-3xl px-6 py-5 flex flex-wrap items-center gap-4">
             <span className="px-3 py-1 bg-textPrimary text-page font-bold text-xs uppercase tracking-widest rounded-full">Now building</span>
             <p className="flex-1 basis-80 min-w-0 text-[15px] leading-relaxed text-textSecondary">
-              <strong className="text-textPrimary">{siteConfig.secureWorkspace.name}</strong>
-              {' '}&mdash; {siteConfig.secureWorkspace.description}
+              <strong className="text-textPrimary">{profile.nowBuilding.name}</strong>
+              {' '}&mdash; {profile.nowBuilding.description}
             </p>
-            {siteConfig.secureWorkspace.repoUrl && (
+            {profile.nowBuilding.repoUrl && (
               <a
-                href={siteConfig.secureWorkspace.repoUrl}
+                href={profile.nowBuilding.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold text-sm text-accent hover:text-accentHover transition-colors"
@@ -229,14 +247,9 @@ const Home = () => {
         <h2 className="text-4xl md:text-[2.5rem] font-extrabold tracking-tight text-textPrimary mt-3">Where I spend my time</h2>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-9">
-          {[
-            { icon: MicrophoneIcon, title: 'Voice AI', desc: 'Real-time voice agents with tool use', href: '/case-studies/voice-agent', hint: 'See case study', color: 'text-orange-600', bg: 'bg-orange-100 dark:bg-orange-900/30' },
-            { icon: ServerStackIcon, title: 'RAG pipelines', desc: 'Ingest, index and retrieve business documents', href: '', hint: '', color: 'text-blue-600', bg: 'bg-blue-100 dark:bg-blue-900/30' },
-            { icon: CpuChipIcon, title: 'MCP servers', desc: 'Exposing tools and data to AI agents', href: '/projects', hint: 'See projects', color: 'text-green-600', bg: 'bg-green-100 dark:bg-green-900/30' },
-            { icon: UserGroupIcon, title: 'Multi-agent workflows', desc: 'Specialized agents with review checkpoints', href: '/case-studies/generative-video', hint: 'See case study', color: 'text-purple-600', bg: 'bg-purple-100 dark:bg-purple-900/30' },
-            { icon: CloudIcon, title: 'AWS deployment', desc: 'Lambda, ECS, S3, RDS, etc.', href: '', hint: '', color: 'text-amber-600', bg: 'bg-amber-100 dark:bg-amber-900/30' },
-            { icon: ChatBubbleLeftRightIcon, title: 'Chat systems', desc: 'Domain-specific assistants for teams and customers', href: '', hint: '', color: 'text-pink-600', bg: 'bg-pink-100 dark:bg-pink-900/30' }
-          ].map((item, i) => {
+          {profile.focus.map((focus, i) => {
+            const style = focusStyle[focus.title];
+            const item = { ...focus, ...style, hint: focusHint(focus.href) };
             const inner = (
               <div className="flex items-start gap-4">
                 <div className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center ${item.bg} ${item.color}`}>
@@ -244,7 +257,7 @@ const Home = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-textPrimary">{item.title}</h3>
-                  <p className="text-sm text-textSecondary mt-1 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-textSecondary mt-1 leading-relaxed">{item.description}</p>
                   {item.hint && <p className="text-[13px] font-bold text-accent mt-2">{item.hint} &rarr;</p>}
                 </div>
               </div>
@@ -323,10 +336,10 @@ const Home = () => {
               Download resume
             </a>
             <a
-              href={`mailto:${siteConfig.email}`}
+              href={`mailto:${profile.email}`}
               className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl font-bold border border-page/25 text-page hover:bg-page/10 transition-colors break-all"
             >
-              {siteConfig.email}
+              {profile.email}
             </a>
           </div>
         </motion.div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import { experienceYears } from '../utils/experience';
+import { profile, openMontageStars } from '../content';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMeta } from '../routes';
 
@@ -17,6 +18,12 @@ const techPills = [
   { label: 'LangChain', iconUrl: 'https://pnglogo.sgp1.digitaloceanspaces.com/simple-icons/langchain-dark.svg' },
   { label: 'Claude Agents SDK', iconUrl: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg' },
 ];
+
+// Experience timeline entries, in the order they appear: current role, previous role, earlier role.
+const [currentRole, internRole, earlierRole] = profile.experience;
+
+// Icons for the certification cards, in the same order as profile.certifications.
+const certIcons = [AcademicCapIcon, SparklesIcon, TrophyIcon, CodeBracketIcon];
 
 const About = () => {
   useDocumentMeta(getRouteMeta('/about'));
@@ -37,8 +44,8 @@ const About = () => {
           <div className="relative w-full md:w-[40%] rounded-[2rem] overflow-hidden shadow-2xl shrink-0 border border-border">
             {/* Full-bleed image */}
             <img
-              src="/images/profile.jpg"
-              alt="Harsh Dadiya"
+              src={profile.photo}
+              alt={profile.name}
               className="w-full max-h-[340px] md:max-h-none aspect-[4/5] object-cover object-top"
             />
 
@@ -65,7 +72,7 @@ const About = () => {
             <div>
               <p className="text-accent font-extrabold tracking-[0.2em] uppercase text-sm mb-2">About Me</p>
               <h1 className="text-4xl lg:text-5xl font-extrabold text-textPrimary tracking-tight leading-tight">
-                I'm Harsh Dadiya
+                I'm {profile.name}
               </h1>
             </div>
 
@@ -76,7 +83,7 @@ const About = () => {
               I'm an AI Engineer with {experienceYears()}+ years of experience building and deploying real-world AI systems. I work at the intersection of LLMs, agentic workflows, and scalable backend infrastructure, turning ideas into production-ready solutions.
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
-              From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I've also found and fixed a bug in OpenMontage, an 81K star agent framework, and I love exploring new technologies like MCP, RAG, and multi-agent systems.
+              {`From building generative long-form video pipelines to integrating OpenAI Realtime API for voice agents, I enjoy solving complex problems and building tools that create real value. I've also found and fixed a bug in OpenMontage, an ${openMontageStars} star agent framework, and I love exploring new technologies like MCP, RAG, and multi-agent systems.`}
             </p>
             <p className="text-[15px] text-textSecondary leading-relaxed">
               When I'm not building, you'll find me writing about AI, learning something new, or tinkering with side projects.
@@ -135,11 +142,11 @@ const About = () => {
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-textSecondary text-xs font-semibold">July 2025 – Present</span>
+                    <span className="text-textSecondary text-xs font-semibold">{currentRole.period}</span>
                     <span className="bg-accent/20 text-accent text-xs font-bold px-2 py-0.5 rounded-full">Current</span>
                   </div>
-                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Associate AI Engineer</h3>
-                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">{currentRole.role}</h3>
+                  <a href={currentRole.orgUrl ?? undefined} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
                     <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#313645" />
@@ -147,16 +154,13 @@ const About = () => {
                         <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                       </svg>
                     </div>
-                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">{currentRole.org}</span>
                   </a>
                   <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
-                    <li>• Building and shipping production-grade AI features and tools.</li>
-                    <li>• Working on generative long-form video pipelines using LLMs, Remotion and AWS.</li>
-                    <li>• Integrated OpenAI Realtime API for voice agents and conversational AI systems.</li>
-                    <li>• Developing RAG pipelines and multi-agent workflows for business applications.</li>
+                    {currentRole.points.map(point => <li key={point}>• {point}</li>)}
                   </ul>
                   <div className="flex flex-wrap gap-1">
-                    {['Python', 'FastAPI', 'AWS', 'OpenAI', 'RAG', 'Agents'].map(t => (
+                    {currentRole.tags.map(t => (
                       <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
                     ))}
                   </div>
@@ -184,9 +188,9 @@ const About = () => {
                 className="pl-[44px] md:pl-8 pr-4 md:pr-0 flex justify-start"
               >
                 <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
-                  <span className="text-textSecondary text-xs font-semibold block mb-2">Jan 2025 – July 2025</span>
-                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">AI/ML Intern</h3>
-                  <a href="https://wappnet.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
+                  <span className="text-textSecondary text-xs font-semibold block mb-2">{internRole.period}</span>
+                  <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">{internRole.role}</h3>
+                  <a href={internRole.orgUrl ?? undefined} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-3 group outline-none">
                     <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 shadow-sm transition-transform group-hover:scale-110">
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#313645" />
@@ -194,16 +198,13 @@ const About = () => {
                         <path d="M 37 74 L 50 30 L 63 74 L 76 30" stroke="white" strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                       </svg>
                     </div>
-                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">Wappnet Systems</span>
+                    <span className="text-textSecondary text-sm font-semibold group-hover:text-accent transition-colors">{internRole.org}</span>
                   </a>
                   <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
-                    <li>• Worked on internal AI tools and automation systems.</li>
-                    <li>• Built and evaluated RAG pipelines for document understanding.</li>
-                    <li>• Contributed to generative video workflows and data processing tools.</li>
-                    <li>• Explored OpenAI APIs and multimodal AI capabilities.</li>
+                    {internRole.points.map(point => <li key={point}>• {point}</li>)}
                   </ul>
                   <div className="flex flex-wrap gap-1.5">
-                    {['Python', 'LangChain', 'OpenAI', 'RAG', 'Computer Vision'].map(t => (
+                    {internRole.tags.map(t => (
                       <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
                     ))}
                   </div>
@@ -229,18 +230,17 @@ const About = () => {
                       className="pl-[44px] md:pl-0 pr-4 md:pr-8 flex justify-start md:justify-end"
                     >
                       <div className="bg-elevated border border-border rounded-2xl p-5 max-w-sm w-full hover:border-accent/40 shadow-sm transition-colors">
-                        <span className="text-textSecondary text-xs font-semibold block mb-2">June 2024 – July 2024</span>
-                        <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">Data Science & ML Intern</h3>
+                        <span className="text-textSecondary text-xs font-semibold block mb-2">{earlierRole.period}</span>
+                        <h3 className="text-textPrimary text-base md:text-lg font-extrabold mb-1.5">{earlierRole.role}</h3>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-page">B</div>
-                          <span className="text-textSecondary text-sm font-semibold">BrainyBeam Info-Tech</span>
+                          <div className="w-5 h-5 bg-textPrimary rounded-full flex items-center justify-center text-[10px] font-bold text-page">{earlierRole.org.charAt(0)}</div>
+                          <span className="text-textSecondary text-sm font-semibold">{earlierRole.org}</span>
                         </div>
                         <ul className="text-textSecondary text-xs md:text-sm space-y-1.5 mb-4">
-                          <li>• Developed an intelligent AQI monitoring system.</li>
-                          <li>• Analyzed PM2.5, PM10, and NO2 parameters using Pandas and scikit-learn.</li>
+                          {earlierRole.points.map(point => <li key={point}>• {point}</li>)}
                         </ul>
                         <div className="flex flex-wrap gap-1">
-                          {['Python', 'Pandas', 'scikit-learn'].map(t => (
+                          {earlierRole.tags.map(t => (
                             <span key={t} className="text-[11px] px-2 py-0.5 bg-surface border border-border text-textSecondary rounded-full font-medium">{t}</span>
                           ))}
                         </div>
@@ -328,16 +328,13 @@ const About = () => {
           <h2 className="text-3xl font-extrabold text-textPrimary">Education</h2>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-surface border border-border p-6 rounded-2xl">
-            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2021 – 2025</p>
-            <h3 className="text-lg font-bold text-textPrimary mb-2">Bachelor of Engineering (IT)</h3>
-            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
-          </div>
-          <div className="bg-surface border border-border p-6 rounded-2xl">
-            <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">2022 – 2024</p>
-            <h3 className="text-lg font-bold text-textPrimary mb-2">Minor Degree (IoT)</h3>
-            <p className="text-textSecondary text-sm">A D Patel Institute of Technology</p>
-          </div>
+          {profile.education.map(item => (
+            <div key={item.title} className="bg-surface border border-border p-6 rounded-2xl">
+              <p className="text-sm font-bold tracking-widest text-textSecondary uppercase mb-1">{item.period}</p>
+              <h3 className="text-lg font-bold text-textPrimary mb-2">{item.title}</h3>
+              <p className="text-textSecondary text-sm">{item.org}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -348,12 +345,8 @@ const About = () => {
           <h2 className="text-3xl font-extrabold text-textPrimary">Certifications & Recognition</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            { icon: <AcademicCapIcon className="w-5 h-5" />, title: 'Machine Learning Specialization', issuer: 'DeepLearning.AI & Coursera', date: '2024', link: 'https://www.coursera.org/account/accomplishments/specialization/P6SUM2UJVZ9S' },
-            { icon: <SparklesIcon className="w-5 h-5" />, title: 'Code Unnati Innovation Marathon', issuer: 'SAP India & Edunet Foundation', date: '2024' },
-            { icon: <TrophyIcon className="w-5 h-5" />, title: 'SSIP Hackathon Participant', issuer: 'Gujarat State Innovation Program', date: '2023–2024' },
-            { icon: <CodeBracketIcon className="w-5 h-5" />, title: 'HackerRank Certified', issuer: 'Python & Data Structures', date: '2023' },
-          ].map((cert, i) => {
+          {profile.certifications.map((cert, i) => {
+            const CertIcon = certIcons[i];
             const inner = (
               <motion.div
                 key={i}
@@ -363,7 +356,7 @@ const About = () => {
                 transition={{ delay: i * 0.08 }}
                 className="bg-surface border border-border p-5 rounded-2xl flex items-start gap-4 hover:border-accent transition-colors"
               >
-                <div className="p-2 bg-accent/10 text-accent rounded-xl shrink-0">{cert.icon}</div>
+                <div className="p-2 bg-accent/10 text-accent rounded-xl shrink-0"><CertIcon className="w-5 h-5" /></div>
                 <div>
                   <p className="font-bold text-textPrimary text-sm">{cert.title}</p>
                   <p className="text-textSecondary text-xs mt-0.5">{cert.issuer}</p>
@@ -371,7 +364,7 @@ const About = () => {
                 </div>
               </motion.div>
             );
-            return cert.link ? <a key={i} href={cert.link} target="_blank" rel="noopener noreferrer">{inner}</a> : inner;
+            return cert.url ? <a key={i} href={cert.url} target="_blank" rel="noopener noreferrer">{inner}</a> : inner;
           })}
         </div>
       </section>
