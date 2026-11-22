@@ -14,36 +14,84 @@ const VITE_PORT = 5173;
 app.use(express.json());
 
 // API endpoint for contact form
+// Same logic as api/contact.ts. If you change one, change the other.
+const CONTACT_LIMITS = { name: 100, email: 200, message: 5000 };
+const EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]+$/;
+
+const escapeHtml = (value) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+// Names end up in the subject and the Reply-To header, so no line breaks allowed.
+const oneLine = (value) => value.replace(/\s+/g, ' ').trim();
+
 app.post('/api/contact', async (req, res) => {
-  const { name, email, message } = req.body;
+  const body = req.body && typeof req.body === 'object' ? req.body : {};
+  const { name: rawName, email: rawEmail, message: rawMessage } = body;
+
+  if (typeof rawName !== 'string' || typeof rawEmail !== 'string' || typeof rawMessage !== 'string') {
+    return res.status(400).send('Missing required fields.');
+  }
+
+  const name = oneLine(rawName);
+  const email = rawEmail.trim();
+  const message = rawMessage.trim();
 
   if (!name || !email || !message) {
     return res.status(400).send('Missing required fields.');
   }
+  if (
+    name.length > CONTACT_LIMITS.name ||
+    email.length > CONTACT_LIMITS.email ||
+    message.length > CONTACT_LIMITS.message
+  ) {
+    return res
+      .status(400)
+      .send(
+        `Too long. Name up to ${CONTACT_LIMITS.name}, email up to ${CONTACT_LIMITS.email}, message up to ${CONTACT_LIMITS.message} characters.`
+      );
+  }
+  if (!EMAIL_RE.test(email)) {
+    return res.status(400).send('That email address does not look right.');
+  }
 
-  // Configure email transporter (same as in api/contact.ts)
+  const { SMTP_HOST, SMTP_USER, SMTP_PASSWORD, TARGET_EMAIL } = process.env;
+  const missing = Object.entries({ SMTP_HOST, SMTP_USER, SMTP_PASSWORD, TARGET_EMAIL })
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+  if (missing.length > 0) {
+    console.error(`Contact form is not set up. Missing env vars: ${missing.join(', ')}`);
+    return res.status(500).send('Failed to send message.');
+  }
+
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.example.com',
+    host: SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: process.env.SMTP_SECURE === 'true',
     auth: {
-      user: process.env.SMTP_USER || 'your-email@example.com',
-      pass: process.env.SMTP_PASSWORD || 'your-email-password',
+      user: SMTP_USER,
+      pass: SMTP_PASSWORD,
     },
   });
 
   try {
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
-      to: process.env.TARGET_EMAIL || 'your-target-email@example.com',
-      subject: `New Contact Form Submission from ${name}`,
+      from: { name: 'Portfolio contact', address: SMTP_USER },
+      replyTo: { name, address: email },
+      to: TARGET_EMAIL,
+      subject: `New contact form message from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       html: `
-        <p>You have a new contact form submission:</p>
+        <p>You have a new contact form message:</p>
         <ul>
-          <li><strong>Name:</strong> ${name}</li>
-          <li><strong>Email:</strong> ${email}</li>
-          <li><strong>Message:</strong> ${message}</li>
+          <li><strong>Name:</strong> ${escapeHtml(name)}</li>
+          <li><strong>Email:</strong> ${escapeHtml(email)}</li>
         </ul>
+        <p>${escapeHtml(message).replace(/\r?\n/g, '<br>')}</p>
       `,
     });
 
